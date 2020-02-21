@@ -1,10 +1,11 @@
 //All our routes
-var express = require('express')
-var router = express.Router()
+var express = require("express");
+var router = express.Router();
+var pool = require("./db");
 
-router.get('/api/hello', (req, res) => {
+router.get("/api/hello", (req, res) => {
   // test route for our Client
-  res.json('hello world')
-})
+  res.json("hello world");
+});
 
-module.exports = router
+module.exports = router;
