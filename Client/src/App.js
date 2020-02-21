@@ -1,14 +1,25 @@
-import React, {useEffect, useState} from 'react'
-import axios from 'axios'
+import React, { useEffect, useState } from "react";
+
+import axios from "axios";
+
+import { Button } from "antd";
 
 function App() {
+  const [state, setState] = useState(null);
+
   useEffect(() => {
-    axios.get('/api/hello').then(res => setState(res.data)) // testing our Server route
-  }, [])
+    axios
+      .get("/api/hello")
+      .then(res => setState(res.data))
+      .catch(err => console.log(err));
+  }, []); // component did mount
 
-  const [state, setState] = useState(null)
-
-  return <div className="App">{state}</div>
+  return (
+    <div className="App">
+      <Button type="primary">Antd Button</Button>
+      {state}
+    </div>
+  );
 }
 
-export default App
+export default App;
