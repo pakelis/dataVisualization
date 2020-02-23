@@ -12,6 +12,11 @@ function App() {
       .get("/api/hello")
       .then(res => setState(res.data))
       .catch(err => console.log(err));
+
+    axios
+      .get("/api/get/allusers")
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err));
   }, []); // component did mount
 
   return (
