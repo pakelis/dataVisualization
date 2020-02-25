@@ -4,11 +4,7 @@
 -- TO siauliai_sportas, public;
 -- set search path of our schema to public
 
--- ALTER TABLE finance
--- SET SCHEMA siauliai_sportas;
---Move table to different schema
-
-CREATE TABLE finance
+CREATE TABLE renginiu_finansavimas
 (
     id SERIAL PRIMARY KEY,
     year SMALLINT,
@@ -17,7 +13,7 @@ CREATE TABLE finance
     funds NUMERIC
 );
 
-CREATE TABLE disabled_finance
+CREATE TABLE neigaliuju_lesu_paskristimas
 (
     id SERIAL PRIMARY KEY,
     project_executor VARCHAR(255),
@@ -29,7 +25,7 @@ CREATE TABLE disabled_finance
     funds MONEY
 );
 
-CREATE TABLE sport_funds
+CREATE TABLE sporto_lesu_paskirstimas
 (
     id SERIAL PRIMARY KEY,
     year SMALLINT,
@@ -38,11 +34,9 @@ CREATE TABLE sport_funds
     funds MONEY
 );
 
-
-
 SELECT *
-FROM finance;
+FROM renginiu_finansavimas;
 SELECT *
-FROM disabled_finance;
+FROM neigaliuju_lesu_paskristimas;
 SELECT *
-FROM sport_funds;
+FROM sporto_lesu_paskirstimas;

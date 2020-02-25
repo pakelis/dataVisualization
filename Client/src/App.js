@@ -1,11 +1,36 @@
 import React, { useEffect, useState } from "react";
 
+import { useAuth0 } from "./react-auth0-spa";
+import history from "./utils/history";
 import axios from "axios";
+import { Router, Route, Switch } from "react-router-dom";
+
+import PrivateRoute from "./components/PrivateRoute";
+import NavBar from "./components/NavBar";
+import Profile from "./components/Profile";
 
 import { Button } from "antd";
 
 function App() {
-  const [state, setState] = useState(null);
+  return (
+    <div className="App">
+      <Router history={history}>
+        <header>
+          <NavBar />
+        </header>
+        <Switch>
+          <Route path="/" exact />
+          <PrivateRoute path="/profile" component={Profile} />
+        </Switch>
+      </Router>
+    </div>
+  );
+}
+
+export default App;
+
+/* TEST AXIOS
+   const [state, setState] = useState(null);
 
   useEffect(() => {
     axios
@@ -18,13 +43,4 @@ function App() {
       .then(res => console.log(res.data))
       .catch(err => console.log(err));
   }, []); // component did mount
-
-  return (
-    <div className="App">
-      <Button type="primary">Antd Button</Button>
-      {state}
-    </div>
-  );
-}
-
-export default App;
+  */
