@@ -1,4 +1,5 @@
 {
   "domain": "dev-g2qmjdu7.eu.auth0.com",
-  "clientId": "4XKMFcYkTDS5ujQ3U3WpteILm5Qzm8d4"
+  "clientId": "4XKMFcYkTDS5ujQ3U3WpteILm5Qzm8d4",
+  "audience": "http://localhost:3000"
 }

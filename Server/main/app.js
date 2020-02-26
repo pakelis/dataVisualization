@@ -3,6 +3,8 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+const jwt = require("express-jwt");
+const jwksRsa = require("jwks-rsa");
 
 //We import our router from routes.js
 var indexRouter = require("./routes");
@@ -10,8 +12,8 @@ var app = express();
 
 //Set up Auth0 configuration
 const authConfig = {
-  domain: "YOUR_DOMAIN",
-  audience: "YOUR_API_IDENTIFIER"
+  domain: "dev-g2qmjdu7.eu.auth0.com",
+  audience: "http://localhost:3000"
 };
 
 //Define middleware that validates incoming bearer tokens
@@ -25,7 +27,7 @@ const checkJwt = jwt({
   }),
 
   audience: authConfig.audience,
-  issuer: `https://${authConfig.domain}`,
+  issuer: `https://${authConfig.domain}/`,
   algorithm: ["RS256jk"]
 });
 
@@ -33,6 +35,12 @@ const checkJwt = jwt({
 app.get("/api/external", checkJwt, (req, res) => {
   res.send({
     msg: "Your Acces Token was succesfully validated"
+  });
+});
+
+app.get("/api/externalhello", (req, res) => {
+  res.send({
+    msg: "Hello external world"
   });
 });
 
