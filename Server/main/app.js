@@ -8,6 +8,7 @@ const jwksRsa = require("jwks-rsa");
 
 //We import our router from routes.js
 var indexRouter = require("./routes");
+var adminRouter = require("./admin_routes");
 var app = express();
 
 //Set up Auth0 configuration
@@ -31,7 +32,8 @@ const checkJwt = jwt({
   algorithm: ["RS256jk"]
 });
 
-// Define an endpoint that must be called with an access token
+/* // Define an endpoint that must be called with an access token
+//Private route
 app.get("/api/external", checkJwt, (req, res) => {
   res.send({
     msg: "Your Acces Token was succesfully validated"
@@ -43,6 +45,7 @@ app.get("/api/externalhello", (req, res) => {
     msg: "Hello external world"
   });
 });
+*/
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -53,5 +56,7 @@ app.use(express.static(path.join(__dirname, "public")));
 //To use our router we say
 
 app.use("/", indexRouter);
+// all routes in /admin wil be checked JWT, so we need token in front end if we want to use those
+app.use("/admin", checkJwt, adminRouter);
 
 module.exports = app;

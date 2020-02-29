@@ -1,4 +1,3 @@
-//All our routes
 var express = require("express");
 var router = express.Router();
 var pool = require("./db");
@@ -30,12 +29,20 @@ pool.connect((err, client, done) => {
 */
 
 /*
-  TEST ROUTE
+   ROUTES SECTION
 */
 
 router.get("/api/hello", (req, res) => {
-  // test route for our Client
-  res.json("hello world");
+  res.json("Hello from /api/hello");
+});
+
+//Get all table data from it's name
+router.get(`/api/get/table/`, (req, res, next) => {
+  const project_name = req.query.project_name;
+
+  pool.query(`SELECT * FROM ${project_name}`, (q_err, q_res) => {
+    res.json(q_res.rows);
+  });
 });
 
 router.get("/api/get/tableone", (req, res, next) => {
@@ -48,19 +55,6 @@ router.get("/api/get/tableone", (req, res, next) => {
       res.json(q_res.rows);
     }
   );
-});
-
-/*
-   ROUTES SECTION
-*/
-
-//Get all table data from it's name
-router.get(`/api/get/table/`, (req, res, next) => {
-  const project_name = req.query.project_name;
-
-  pool.query(`SELECT * FROM ${project_name}`, (q_err, q_res) => {
-    res.json(q_res.rows);
-  });
 });
 
 module.exports = router;
