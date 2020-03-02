@@ -74,6 +74,23 @@ const ExternalApi = () => {
     }
   };
 
+  const uploadCall = async () => {
+    const token = await getTokenSilently();
+
+    let res = await axios
+      .post(
+        "/api/upload",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json;charset=UTF-8"
+          }
+        }
+      )
+      .then(res => console.log(res.data));
+  };
+
   return (
     <>
       <h1>External API</h1>
@@ -82,6 +99,7 @@ const ExternalApi = () => {
       <button onClick={callHello}>Get hello</button>
       <button onClick={callExHello}>Get external hello</button>
       <button onClick={callAxios}>Call axios external hello</button>
+      <button onClick={uploadCall}>Call upload</button>
       {axiosCall}
       {result && <code>{JSON.stringify(stateMessage, null, 2)}</code>}
       {state}
