@@ -24,6 +24,7 @@ router.get("/api/externalhello", (req, res) => {
 
 //file upload route
 router.post("/api/upload", (req, res) => {
+  console.log(req.files, req);
   if (req.files == null) {
     return res.status(400).json({ msg: "No file uploaded" });
   }
