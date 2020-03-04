@@ -1,20 +1,15 @@
 import React, { Fragment, useEffect, useState } from "react";
 
 import axios from "axios";
+import Papa from "papaparse";
 
 import { useAuth0 } from "../react-auth0-spa";
 
 import { Upload, message, Button } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
+import ShowUploadedData from "./ShowUploadedData";
 
 const handleForce = (data, fileName) => console.log(data, fileName);
-
-const papaparseOptions = {
-  header: true,
-  dynamicTyping: true,
-  skipEmptyLines: true,
-  transformHeader: header => header.toLowerCase().replace(/\W/g, "_")
-};
 
 const FileUpload = () => {
   const { getTokenSilently } = useAuth0();
@@ -24,6 +19,8 @@ const FileUpload = () => {
     selectedFileList: [],
     selectedFileName: ""
   });
+  const [dataRows, setDataRows] = useState({});
+  const [columns, setColumns] = useState();
 
   const getToken = async () => {
     const token = await getTokenSilently();
@@ -48,7 +45,7 @@ const FileUpload = () => {
       const res = await axios.post("/admin/api/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          authorization: `Bearer + ${token}`
+          authorization: `Bearer ${token}`
         }
       });
 
@@ -68,25 +65,35 @@ const FileUpload = () => {
     getToken();
   }, []);
 
+  const parser = file => {
+    let rows = {};
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      dynamicTyping: true,
+      complete: results => {
+        rows.data = results.data;
+        rows.errors = results.errors;
+        rows.meta = results.meta;
+        rows.columns = Object.keys(results.data[0]).length;
+      }
+    });
+
+    console.log(rows);
+    return rows;
+  };
+
   const beforeUpload = file => {
     const isType = file.type === "application/vnd.ms-excel";
-    // const isCSV = file.name.split(".")[1].toUpperCase() === "CSV" ? true : false;
 
     if (!isType) {
       message.error("You can only upload .csv files");
       return false;
     }
 
-    const reader = new FileReader();
+    const data = parser(file);
 
-    reader.onload = e => {
-      const lines = reader.result.split("\n");
-      lines.map(line => {
-        line.split(",");
-      });
-      console.log(lines);
-    };
-    reader.readAsText(file);
+    setDataRows(data);
   };
 
   const onChange = info => {
@@ -121,6 +128,7 @@ const FileUpload = () => {
           <UploadOutlined /> Choose file
         </Button>
       </Upload>
+      <ShowUploadedData data={dataRows} />
     </div>
   );
 };

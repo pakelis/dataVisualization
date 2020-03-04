@@ -24,18 +24,14 @@ router.get("/api/externalhello", (req, res) => {
 
 //file upload route
 router.post("/api/upload", (req, res) => {
-  console.log(req.files, req);
-  if (req.files == null) {
-    return res.status(400).json({ msg: "No file uploaded" });
+  if (req.body == null) {
+    return res.status(400).json({ msg: "No data found in a request body" });
   }
 
-  const file = req.files.file;
+  const rows = req.body.rows;
+  const fields = req.body.fields;
 
-  if (file.name.split(".")[1].toUpperCase() != "CSV") {
-    return res.status(400).json({ msg: "File type must be csv" });
-  }
-
-  res.json({ Filename: file.name });
+  console.log(fields);
 });
 
 module.exports = router;
