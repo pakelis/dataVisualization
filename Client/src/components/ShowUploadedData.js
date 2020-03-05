@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-import axios from "axios";
-
-import { useAuth0 } from "../react-auth0-spa";
 import { Typography, Table, Button } from "antd";
+import FormSubmit from "./FormSubmit";
+import Demo from "./Demo";
 
 const { Title } = Typography;
 
@@ -15,8 +14,6 @@ const ShowUploadedData = parsedInfo => {
   const [loading, setLoading] = useState({
     loading: false
   });
-
-  const { getTokenSilently } = useAuth0();
 
   useEffect(() => {
     if (
@@ -51,40 +48,14 @@ const ShowUploadedData = parsedInfo => {
     }
   }, [parsedInfo]);
 
-  const sendData = async () => {
-    try {
-      const token = await getTokenSilently();
-
-      const data = {
-        rows: rows,
-        fields: fields
-      };
-
-      console.log(data);
-
-      const res = await axios.post("/admin/api/upload", data, {
-        headers: {
-          authorization: `Bearer ${token}`
-        }
-      });
-    } catch (err) {
-      if (err.response.status === 500) {
-        console.log("There was a problem with the server");
-      } else {
-        console.log(err.response.data.msg);
-      }
-    }
-  };
-
   return (
     <div>
       {rows != null ? (
         <div>
           <Title level={2}>CSV preview</Title>
           <Table dataSource={rows} columns={columns} />
-          <Button onClick={sendData} type="primary" loading={loading.loading}>
-            Submit data to DB
-          </Button>
+          <FormSubmit rows={rows} fields={fields} />
+          <Demo />
         </div>
       ) : null}
     </div>
