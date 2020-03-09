@@ -9,8 +9,6 @@ import { Upload, message, Button } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import ShowUploadedData from "./ShowUploadedData";
 
-const handleForce = (data, fileName) => console.log(data, fileName);
-
 const FileUpload = () => {
   const { getTokenSilently } = useAuth0();
 
@@ -34,33 +32,6 @@ const FileUpload = () => {
     }, 0);
   };
 
-  const onSubmit = async e => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("file", file);
-
-    try {
-      const token = await getTokenSilently();
-
-      const res = await axios.post("/admin/api/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          authorization: `Bearer ${token}`
-        }
-      });
-
-      const { fileName } = res.data;
-
-      setFile({ ...file, selectedFileName: fileName });
-    } catch (err) {
-      if (err.response.status === 500) {
-        console.log("There was a problem with the server");
-      } else {
-        console.log(err.response.data.msg);
-      }
-    }
-  };
-
   useEffect(() => {
     getToken();
   }, []);
@@ -79,7 +50,6 @@ const FileUpload = () => {
       }
     });
 
-    console.log(rows);
     return rows;
   };
 
@@ -128,7 +98,7 @@ const FileUpload = () => {
           <UploadOutlined /> Choose file
         </Button>
       </Upload>
-      <ShowUploadedData data={dataRows} />
+      <ShowUploadedData data={dataRows} fileName={file.selectedFileName} />
     </div>
   );
 };

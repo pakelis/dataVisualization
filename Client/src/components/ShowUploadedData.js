@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 import { Typography, Table, Button } from "antd";
 import FormSubmit from "./FormSubmit";
-import Demo from "./Demo";
 
 const { Title } = Typography;
 
@@ -14,6 +13,7 @@ const ShowUploadedData = parsedInfo => {
   const [loading, setLoading] = useState({
     loading: false
   });
+  const [fileName, setFileName] = useState("");
 
   useEffect(() => {
     if (
@@ -26,17 +26,17 @@ const ShowUploadedData = parsedInfo => {
         data: {
           data,
           meta: { fields }
-        }
+        },
+        fileName
       } = parsedInfo;
 
       setFields(fields);
+      setFileName(fileName);
 
       let addKey = data.map((row, index) => ({ ...row, key: index })); // We add key property to our data object for table
 
       //   setRows(addKey.slice(0, showItems)); // we slice our object to show only 10 first rows
       setRows(addKey);
-      console.log(rows);
-      console.log(fields);
 
       setColumns(
         fields.map((field, index) => ({
@@ -54,8 +54,7 @@ const ShowUploadedData = parsedInfo => {
         <div>
           <Title level={2}>CSV preview</Title>
           <Table dataSource={rows} columns={columns} />
-          <FormSubmit rows={rows} fields={fields} />
-          <Demo />
+          <FormSubmit rows={rows} fields={fields} fileName={fileName} />
         </div>
       ) : null}
     </div>

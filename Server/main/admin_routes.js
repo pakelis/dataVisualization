@@ -30,7 +30,13 @@ router.post("/api/upload", (req, res) => {
 
   const rows = req.body.rows;
   const fields = req.body.fields;
+  const tableName = req.body.tableName;
 
+  let tableQuery = `CREATE TABLE $1`;
+
+  pool.query(tableQuery, [tableName]);
+
+  console.log(tableName);
   console.log(fields);
 });
 
