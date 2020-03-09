@@ -1,7 +1,10 @@
 var express = require("express");
 var router = express.Router();
-var pool = require("./db");
+var db = require("./db");
 const fileUpload = require("express-fileupload");
+const pgp = require("pg-promise")({
+  capSQL: true
+});
 
 /*
    ADMIN ROUTES SECTION
@@ -32,9 +35,11 @@ router.post("/api/upload", (req, res) => {
   const fields = req.body.fields;
   const tableName = req.body.tableName;
 
+  const cs = new pgp.helpers.ColumnSet(fields, { table: tableName });
+
   let tableQuery = `CREATE TABLE $1`;
 
-  pool.query(tableQuery, [tableName]);
+  // pool.query(tableQuery, [tableName]);
 
   console.log(tableName);
   console.log(fields);

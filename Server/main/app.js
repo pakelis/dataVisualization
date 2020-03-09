@@ -47,21 +47,6 @@ app.get("/api/externalhello", (req, res) => {
 });
 */
 
-app.post("/api/upload", (req, res) => {
-  console.log(req.files);
-  if (req.files == null) {
-    return res.status(400).json({ msg: "No file uploaded" });
-  }
-
-  const file = req.files.file;
-
-  if (file.name.split(".")[1].toUpperCase() != "CSV") {
-    return res.status(400).json({ msg: "File type must be csv" });
-  }
-
-  res.json({ Filename: file.name });
-});
-
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

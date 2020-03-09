@@ -74,7 +74,7 @@ const ExternalApi = () => {
     }
   };
 
-  const uploadCall = async () => {
+  /* const uploadCall = async () => {
     const token = await getTokenSilently();
 
     let res = await axios
@@ -90,6 +90,7 @@ const ExternalApi = () => {
       )
       .then(res => console.log(res.data));
   };
+  */
 
   return (
     <>
@@ -99,7 +100,7 @@ const ExternalApi = () => {
       <button onClick={callHello}>Get hello</button>
       <button onClick={callExHello}>Get external hello</button>
       <button onClick={callAxios}>Call axios external hello</button>
-      <button onClick={uploadCall}>Call upload</button>
+      {/* <button onClick={uploadCall}>Call upload</button> */}
       {axiosCall}
       {result && <code>{JSON.stringify(stateMessage, null, 2)}</code>}
       {state}
