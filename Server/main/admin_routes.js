@@ -77,7 +77,7 @@ router.post("/api/upload", (req, res) => {
 
   const query = pgp.helpers.insert(rows, cs);
 
-  fields = fields.map((field, index) => `${field} ${fieldTypes[index]}`);
+  // fields = fields.map((field, index) => `${field} ${fieldTypes[index]}`);
   //we add field value + field type for our query , that we gonna use later on
   // USE .csv fiter for arrays
 
@@ -93,18 +93,36 @@ router.post("/api/upload", (req, res) => {
     });
     */
 
-  /* db.task("create-insert-csv", async t => {
+  db.task("create-insert-csv", async t => {
+    const table = new pgp.helpers.TableName({ table: tableName });
     const createTable = await t.none(
       `create table if not exists $1 (
-        id serial primary key,
-        ${fields[0]}
-      )`,
-      [tableName, fields]
+        $2:name)`,
+      [table, fields]
     );
-  }); */
+  })
+    .then(events => {
+      console.log("table created!", events);
+    })
+    .catch(err => {
+      console.log("something wrong!", err);
+    });
 
   // console.log(tableName);
   // console.log(fields);
 });
+
+/* db.none(
+    `create table NVO_finansuoti_aplinkosauginio_svietimo_projektai (
+  id serial primary key,
+  year smallint,
+  project_name varchar(255)
+)`
+  )
+    .then(events => console.log("Table created!", events))
+    .catch(err => {
+      console.log(err);
+    });
+}); */
 
 module.exports = router;

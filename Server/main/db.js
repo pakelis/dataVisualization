@@ -1,6 +1,15 @@
-const pgp = require("pg-promise")({
+const promise = require("bluebird");
+const monitor = require("pg-monitor");
+
+const initOptions = {
+  promiseLib: promise
+};
+
+const pgp = require("pg-promise")(initOptions, {
   capSQL: true
 });
+
+monitor.attach(initOptions);
 
 const cn = {
   user: "postgres",
