@@ -3,6 +3,7 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+var bodyParser = require("body-parser");
 const jwt = require("express-jwt");
 const jwksRsa = require("jwks-rsa");
 
@@ -48,8 +49,10 @@ app.get("/api/externalhello", (req, res) => {
 */
 
 app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({ limit: "50mb", extended: true }));
+app.use(
+  express.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 })
+);
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 

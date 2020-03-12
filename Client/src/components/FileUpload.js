@@ -32,6 +32,25 @@ const FileUpload = () => {
     }, 0);
   };
 
+  function cleanUpSpecialChars(str) {
+    // we need this to clean up header
+    return str
+      .replace(/[ĖĘ]/g, "E")
+      .replace(/[ėę]/g, "e")
+      .replace(/[č]/g, "c")
+      .replace(/[Č]/g, "C")
+      .replace(/[ą]/g, "a")
+      .replace(/[Ą]/g, "A")
+      .replace(/[į]/g, "i")
+      .replace(/[Į]/g, "I")
+      .replace(/[ųū]/g, "u")
+      .replace(/[ŲŪ]/g, "U")
+      .replace(/[Š]/g, "S")
+      .replace(/[š]/g, "s")
+      .replace(/ /g, "_")
+      .replace(/[^a-zA-Z0-9_]/, "");
+  }
+
   useEffect(() => {
     getToken();
   }, []);
@@ -42,6 +61,9 @@ const FileUpload = () => {
       header: true,
       skipEmptyLines: true,
       dynamicTyping: true,
+      transformHeader: header => {
+        return cleanUpSpecialChars(header);
+      },
       complete: results => {
         rows.data = results.data;
         rows.errors = results.errors;

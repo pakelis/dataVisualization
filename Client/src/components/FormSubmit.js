@@ -66,7 +66,7 @@ const FormSubmit = props => {
 
       const data = {
         rows: newRows,
-        fields: fields,
+        fields: fields.map(string => string.replace(/\s+/g, "_")), // adding underscores instead of spaces
         tableName: values.name.replace(/\s+/g, "_")
       };
 

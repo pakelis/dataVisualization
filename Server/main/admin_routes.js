@@ -1,10 +1,28 @@
 var express = require("express");
 var router = express.Router();
 var db = require("./db");
-const fileUpload = require("express-fileupload");
 const pgp = require("pg-promise")({
   capSQL: true
 });
+
+function cleanUpSpecialChars(str) {
+  // we need this function so we can use pg promise set column, they only accept variables as strings
+  return str
+    .replace(/[ĖĘ]/g, "E")
+    .replace(/[ėę]/g, "e")
+    .replace(/[č]/g, "c")
+    .replace(/[Č]/g, "C")
+    .replace(/[ą]/g, "a")
+    .replace(/[Ą]/g, "A")
+    .replace(/[į]/g, "i")
+    .replace(/[Į]/g, "I")
+    .replace(/[ųū]/g, "u")
+    .replace(/[ŲŪ]/g, "U")
+    .replace(/[Š]/g, "S")
+    .replace(/[š]/g, "s")
+    .replace(/ /g, "_")
+    .replace(/[^a-zA-Z0-9_]/, "");
+}
 
 /*
    ADMIN ROUTES SECTION
@@ -32,17 +50,61 @@ router.post("/api/upload", (req, res) => {
   }
 
   const rows = req.body.rows;
-  const fields = req.body.fields;
-  const tableName = req.body.tableName;
+  let fields = req.body.fields;
+  fields = fields.map(string => cleanUpSpecialChars(string));
+  const tableName = cleanUpSpecialChars(req.body.tableName);
+
+  console.log(fields);
+  console.log(rows[0]);
+  console.log(tableName);
+
+  // we get all our field types so we can use this in our query to create dynamic table (needs reworking though)
+  const propertyType = () => {
+    let types = [];
+    for (let [key, value] of Object.entries(rows[0])) {
+      if (typeof value === "number") {
+        types.push("NUMERIC");
+      } else if (typeof value === "string") {
+        types.push("VARCHAR(255)");
+      }
+    }
+    return types;
+  };
+
+  const fieldTypes = propertyType();
 
   const cs = new pgp.helpers.ColumnSet(fields, { table: tableName });
 
-  let tableQuery = `CREATE TABLE $1`;
+  const query = pgp.helpers.insert(rows, cs);
 
-  // pool.query(tableQuery, [tableName]);
+  fields = fields.map((field, index) => `${field} ${fieldTypes[index]}`);
+  //we add field value + field type for our query , that we gonna use later on
+  // USE .csv fiter for arrays
 
-  console.log(tableName);
+  console.log(fieldTypes);
   console.log(fields);
+
+  /* db.none(query)
+    .then(data => {
+      console.log(data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+    */
+
+  /* db.task("create-insert-csv", async t => {
+    const createTable = await t.none(
+      `create table if not exists $1 (
+        id serial primary key,
+        ${fields[0]}
+      )`,
+      [tableName, fields]
+    );
+  }); */
+
+  // console.log(tableName);
+  // console.log(fields);
 });
 
 module.exports = router;
