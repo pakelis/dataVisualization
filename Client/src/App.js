@@ -1,11 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from 'react'
 
-import axios from "axios";
+import {useAuth0} from './react-auth0-spa'
+import history from './utils/history'
+import axios from 'axios'
+import {Router, Route, Switch} from 'react-router-dom'
 
-import { Button } from "antd";
+import PrivateRoute from './components/PrivateRoute'
+import NavBar from './components/NavBar'
+import Profile from './components/Profile'
+import ExternalApi from './views/ExternalApi'
+import PostCsv from './views/PostCsv'
+
+import {Button} from 'antd'
 
 function App() {
-  const [state, setState] = useState(null);
+  return (
+    <div className="App">
+      <Router history={history}>
+        <header>
+          <NavBar />
+        </header>
+        <Switch>
+          <Route path="/" exact />
+          <PrivateRoute path="/profile" component={Profile} />
+          <PrivateRoute path="/external-api" component={ExternalApi} />
+          <PrivateRoute path="/post-csv" component={PostCsv} />
+        </Switch>
+      </Router>
+    </div>
+  )
+}
+
+export default App
+
+/* TEST AXIOS
+   const [state, setState] = useState(null);
 
   useEffect(() => {
     axios
@@ -18,13 +47,4 @@ function App() {
       .then(res => console.log(res.data))
       .catch(err => console.log(err));
   }, []); // component did mount
-
-  return (
-    <div className="App">
-      <Button type="primary">Antd Button</Button>
-      {state}
-    </div>
-  );
-}
-
-export default App;
+  */
