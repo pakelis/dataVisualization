@@ -47,6 +47,7 @@ const FileUpload = () => {
       .replace(/[ŲŪ]/g, "U")
       .replace(/[Š]/g, "S")
       .replace(/[š]/g, "s")
+      .replace(/[ž]/g, "z")
       .replace(/ /g, "_")
       .replace(/[^a-zA-Z0-9_]/, "");
   }

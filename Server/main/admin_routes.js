@@ -20,6 +20,7 @@ function cleanUpSpecialChars(str) {
     .replace(/[ŲŪ]/g, "U")
     .replace(/[Š]/g, "S")
     .replace(/[š]/g, "s")
+    .replace(/[ž]/g, "z")
     .replace(/ /g, "_")
     .replace(/[^a-zA-Z0-9_]/, "");
 }
@@ -71,35 +72,37 @@ router.post("/api/upload", (req, res) => {
     return types;
   };
 
+  const propTypes = () => {
+    let types = [];
+
+    rows.map(row => {
+      for (let [key, value] of Object.entries(row)) {
+        if (typeof value === "number") {
+        }
+      }
+    });
+  };
+
   const fieldTypes = propertyType();
 
   const cs = new pgp.helpers.ColumnSet(fields, { table: tableName });
 
   const query = pgp.helpers.insert(rows, cs);
 
-  // fields = fields.map((field, index) => `${field} ${fieldTypes[index]}`);
-  //we add field value + field type for our query , that we gonna use later on
-  // USE .csv fiter for arrays
-
   console.log(fieldTypes);
   console.log(fields);
 
-  /* db.none(query)
-    .then(data => {
-      console.log(data);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-    */
-
   db.task("create-insert-csv", async t => {
-    const table = new pgp.helpers.TableName({ table: tableName });
-    const createTable = await t.none(
-      `create table if not exists $1 (
-        $2:name)`,
-      [table, fields]
-    );
+    const testQuery = await t.none(`create table if not exists $1:name()`, [
+      tableName
+    ]);
+    const insertColumns = await fields.map((l, index) => {
+      return t.none(
+        `alter table $1:name add column if not exists $2:name $3:value`,
+        [tableName, fields[index], fieldTypes[index]]
+      );
+    });
+    await db.none(query);
   })
     .then(events => {
       console.log("table created!", events);
@@ -107,9 +110,6 @@ router.post("/api/upload", (req, res) => {
     .catch(err => {
       console.log("something wrong!", err);
     });
-
-  // console.log(tableName);
-  // console.log(fields);
 });
 
 /* db.none(
