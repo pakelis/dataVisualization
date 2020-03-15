@@ -48,7 +48,12 @@ const FileUpload = () => {
       .replace(/[Š]/g, 'S')
       .replace(/[š]/g, 's')
       .replace(/ /g, '_')
-      .replace(/./g, '')
+      .replace(/\./g, '')
+      .replace('{', '')
+      .replace('}', '')
+      .replace('(', '')
+      .replace(')', '')
+      .replace('.', '')
       .replace(/[^a-zA-Z0-9_]/, '')
   }
 
@@ -58,6 +63,7 @@ const FileUpload = () => {
 
   const parser = file => {
     let rows = {}
+    console.log(file)
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,

@@ -21,6 +21,12 @@ function cleanUpSpecialChars(str) {
     .replace(/[Š]/g, 'S')
     .replace(/[š]/g, 's')
     .replace(/ /g, '_')
+    .replace(/\./g, '')
+    .replace('{', '')
+    .replace('}', '')
+    .replace('(', '')
+    .replace(')', '')
+    .replace('.', '')
     .replace(/[^a-zA-Z0-9_]/, '')
 }
 
