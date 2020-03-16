@@ -4,26 +4,7 @@ var db = require("./db");
 const pgp = require("pg-promise")({
   capSQL: true
 });
-
-function cleanUpSpecialChars(str) {
-  // we need this function so we can use pg promise set column, they only accept variables as strings
-  return str
-    .replace(/[ĖĘ]/g, "E")
-    .replace(/[ėę]/g, "e")
-    .replace(/[č]/g, "c")
-    .replace(/[Č]/g, "C")
-    .replace(/[ą]/g, "a")
-    .replace(/[Ą]/g, "A")
-    .replace(/[į]/g, "i")
-    .replace(/[Į]/g, "I")
-    .replace(/[ųū]/g, "u")
-    .replace(/[ŲŪ]/g, "U")
-    .replace(/[Š]/g, "S")
-    .replace(/[š]/g, "s")
-    .replace(/[ž]/g, "z")
-    .replace(/ /g, "_")
-    .replace(/[^a-zA-Z0-9_]/, "");
-}
+var cleanUpSpecialChars = require("./functions");
 
 /*
    ADMIN ROUTES SECTION
@@ -55,47 +36,56 @@ router.post("/api/upload", (req, res) => {
   fields = fields.map(string => cleanUpSpecialChars(string));
   const tableName = cleanUpSpecialChars(req.body.tableName);
 
-  console.log(fields);
-  console.log(rows[0]);
-  console.log(tableName);
-
-  // we get all our field types so we can use this in our query to create dynamic table (needs reworking though)
-  const propertyType = () => {
-    let types = [];
-    for (let [key, value] of Object.entries(rows[0])) {
-      if (typeof value === "number") {
-        types.push("NUMERIC");
-      } else if (typeof value === "string") {
-        types.push("VARCHAR(255)");
-      }
-    }
-    return types;
-  };
-
+  // we get all our field types so we can use this in our query to create dynamic table
+  // e.g sometimes the first row[0] property values can show string, but on row[25], maybe it's numeric value, so we have to check all passed rows property values
+  // to make sure we describe correct column data type
   const propTypes = () => {
-    let types = [];
+    let sizeOfArray = fields.length;
+    const types = Array.from(Array(sizeOfArray), () => Array(0)); // we create empty two dimensional array depending on fields length
+    // console.log(sizeOfArray, types);
 
     rows.map(row => {
+      let index = 0;
       for (let [key, value] of Object.entries(row)) {
-        if (typeof value === "number") {
+        //we loop through all rows, and check their property values
+        if (key === fields[index]) {
+          types[index].push(typeof value);
+          /* console.log(
+            `index: ${index} , key: ${key} , field: ${fields[index]}`
+          );*/
+        }
+        index++;
+        if (index > sizeOfArray) {
+          index = 0;
         }
       }
     });
+
+    let columnTypes = () => {
+      //we check types array if every array got the same value
+      let columnTypes = [];
+      for (let i = 0; i < fields.length; i++) {
+        types[i].every(val => val === "number")
+          ? columnTypes.push("NUMERIC")
+          : columnTypes.push("VARCHAR(255)");
+      }
+
+      return columnTypes;
+    };
+
+    return columnTypes();
   };
 
-  const fieldTypes = propertyType();
-
-  const cs = new pgp.helpers.ColumnSet(fields, { table: tableName });
-
-  const query = pgp.helpers.insert(rows, cs);
-
-  console.log(fieldTypes);
-  console.log(fields);
+  const fieldTypes = propTypes(); // get column data types
+  const cs = new pgp.helpers.ColumnSet(fields, { table: tableName }); // pgp.helpers.ColumnSet - helper to insert multirow data from pg-promise module
+  const query = pgp.helpers.insert(rows, cs); // insert multi row data query
 
   db.task("create-insert-csv", async t => {
+    //First we create empty table
     const testQuery = await t.none(`create table if not exists $1:name()`, [
       tableName
     ]);
+    //Here we add columns depending on response data
     const insertColumns = await fields.map((l, index) => {
       return t.none(
         `alter table $1:name add column if not exists $2:name $3:value`,
@@ -106,23 +96,16 @@ router.post("/api/upload", (req, res) => {
   })
     .then(events => {
       console.log("table created!", events);
+      res.send({
+        success: "Data successfully submited to DB!"
+      });
     })
     .catch(err => {
       console.log("something wrong!", err);
+      res.send({
+        error: "Something went wrong!"
+      });
     });
 });
-
-/* db.none(
-    `create table NVO_finansuoti_aplinkosauginio_svietimo_projektai (
-  id serial primary key,
-  year smallint,
-  project_name varchar(255)
-)`
-  )
-    .then(events => console.log("Table created!", events))
-    .catch(err => {
-      console.log(err);
-    });
-}); */
 
 module.exports = router;

@@ -20,6 +20,7 @@ const NavBar = () => {
           <Link to="/profile">Profile</Link>
           <Link to="/external-api">External API</Link>
           <Link to="/post-csv">Post CVS</Link>
+          <Link to="/create-chart">Create Chart</Link>
         </span>
       )}
     </div>

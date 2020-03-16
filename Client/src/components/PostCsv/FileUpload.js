@@ -3,7 +3,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import axios from "axios";
 import Papa from "papaparse";
 
-import { useAuth0 } from "../react-auth0-spa";
+import { useAuth0 } from "../../react-auth0-spa";
 
 import { Upload, message, Button } from "antd";
 import { UploadOutlined } from "@ant-design/icons";

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 
-import { useAuth0 } from "../react-auth0-spa";
+import { useAuth0 } from "../../react-auth0-spa";
 
-import { Form, Input, Button, Typography, Checkbox } from "antd";
+import { Form, Input, Button, Typography, Checkbox, message } from "antd";
 
 const { Title } = Typography;
 
@@ -48,6 +48,16 @@ const FormSubmit = props => {
     return newName;
   };
 
+  useEffect(() => {
+    if (fileName === undefined) {
+      console.log("undefined fileName");
+    } else {
+      checked
+        ? form.setFieldsValue({ name: parseFileName(fileName) })
+        : form.setFieldsValue({ name: "" });
+    }
+  });
+
   const onCheckboxChange = e => {
     setChecked(e.target.checked);
 
@@ -70,11 +80,17 @@ const FormSubmit = props => {
         tableName: values.name.replace(/\s+/g, "_")
       };
 
-      const res = await axios.post("/admin/api/upload", data, {
-        headers: {
-          authorization: `Bearer ${token}`
-        }
-      });
+      const res = await axios
+        .post("/admin/api/upload", data, {
+          headers: {
+            authorization: `Bearer ${token}`
+          }
+        })
+        .then(res =>
+          res.data.hasOwnProperty("success")
+            ? message.success(res.data.success)
+            : message.error(res.data.error)
+        );
     } catch (err) {
       console.log(err);
     }
