@@ -10,6 +10,7 @@ import NavBar from './components/NavBar'
 import Profile from './components/Profile'
 import ExternalApi from './views/ExternalApi'
 import PostCsv from './views/PostCsv'
+import CreateChartView from './views/CreateCart'
 
 import {Button} from 'antd'
 
@@ -25,6 +26,7 @@ function App() {
           <PrivateRoute path="/profile" component={Profile} />
           <PrivateRoute path="/external-api" component={ExternalApi} />
           <PrivateRoute path="/post-csv" component={PostCsv} />
+          <PrivateRoute path="/create-chart" component={CreateChartView} />
         </Switch>
       </Router>
     </div>
