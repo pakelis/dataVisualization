@@ -20,6 +20,7 @@ function cleanUpSpecialChars(str) {
     .replace(/[ŲŪ]/g, 'U')
     .replace(/[Š]/g, 'S')
     .replace(/[š]/g, 's')
+    .replace(/[ž]/g, 'z')
     .replace(/ /g, '_')
     .replace(/\./g, '')
     .replace('{', '')
@@ -60,9 +61,9 @@ router.post('/api/upload', (req, res) => {
   fields = fields.map(string => cleanUpSpecialChars(string))
   const tableName = cleanUpSpecialChars(req.body.tableName)
 
-  console.log(fields)
-  console.log(rows[0])
-  console.log(tableName)
+  // console.log(fields)
+  // console.log(rows[0])
+  // console.log(tableName)
 
   // we get all our field types so we can use this in our query to create dynamic table (needs reworking though)
   const propertyType = () => {
@@ -77,35 +78,42 @@ router.post('/api/upload', (req, res) => {
     return types
   }
 
+  const propTypes = () => {
+    let types = []
+    columns = Object.keys(rows).length
+    console.log(columns)
+
+    rows.map(row => {
+      let types = []
+      for (let [key, value] of Object.entries(row)) {
+        if (typeof value === 'number') {
+        }
+      }
+    })
+  }
+
+  propTypes()
+
   const fieldTypes = propertyType()
 
   const cs = new pgp.helpers.ColumnSet(fields, {table: tableName})
 
   const query = pgp.helpers.insert(rows, cs)
 
-  // fields = fields.map((field, index) => `${field} ${fieldTypes[index]}`);
-  //we add field value + field type for our query , that we gonna use later on
-  // USE .csv fiter for arrays
-
-  console.log(fieldTypes)
-  console.log(fields)
-
-  /* db.none(query)
-    .then(data => {
-      console.log(data);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-    */
+  // console.log(fieldTypes)
+  // console.log(fields)
 
   db.task('create-insert-csv', async t => {
-    const table = new pgp.helpers.TableName({table: tableName})
-    const createTable = await t.none(
-      `create table if not exists $1 (
-        $2:name)`,
-      [table, fields],
-    )
+    const testQuery = await t.none(`create table if not exists $1:name()`, [
+      tableName,
+    ])
+    const insertColumns = await fields.map((l, index) => {
+      return t.none(
+        `alter table $1:name add column if not exists $2:name $3:value`,
+        [tableName, fields[index], fieldTypes[index]],
+      )
+    })
+    await db.none(query)
   })
     .then(events => {
       console.log('table created!', events)
@@ -113,9 +121,6 @@ router.post('/api/upload', (req, res) => {
     .catch(err => {
       console.log('something wrong!', err)
     })
-
-  // console.log(tableName);
-  // console.log(fields);
 })
 
 /* db.none(

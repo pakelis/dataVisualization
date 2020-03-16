@@ -20,7 +20,7 @@ const ShowUploadedData = parsedInfo => {
       Object.entries(parsedInfo.data).length === 0 && // check if object is not empty
       parsedInfo.constructor === Object
     ) {
-      console.log('data is empty')
+      // console.log('data is empty')
     } else {
       const {
         data: {

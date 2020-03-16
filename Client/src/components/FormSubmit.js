@@ -76,11 +76,7 @@ const FormSubmit = props => {
         },
       })
     } catch (err) {
-      if (err.response.status === 500) {
-        console.log('There was a problem with the server')
-      } else {
-        console.log(err.response.data.msg)
-      }
+      console.log(err)
     }
   }
 
