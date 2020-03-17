@@ -1,39 +1,46 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from "react";
+import { Router, Route, Switch } from "react-router-dom";
 
-import {useAuth0} from './react-auth0-spa'
-import history from './utils/history'
-import axios from 'axios'
-import {Router, Route, Switch} from 'react-router-dom'
+import PrivateRoute from "./components/PrivateRoute";
+import NavBar from "./components/NavBar";
+import Profile from "./components/Profile";
+import ExternalApi from "./views/ExternalApi";
+import PostCsv from "./views/PostCsv";
+import CreateChartView from "./views/CreateCart";
+import { useAuth0 } from "./react-auth0-spa";
 
-import PrivateRoute from './components/PrivateRoute'
-import NavBar from './components/NavBar'
-import Profile from './components/Profile'
-import ExternalApi from './views/ExternalApi'
-import PostCsv from './views/PostCsv'
-import CreateChartView from './views/CreateCart'
+//extra libraries
+import history from "./utils/history";
+import axios from "axios";
 
-import {Button} from 'antd'
+//context
+import { SelectedTableProvider } from "./context";
+
+//antd imports
+import { Button } from "antd";
 
 function App() {
   return (
-    <div className="App">
-      <Router history={history}>
-        <header>
-          <NavBar />
-        </header>
-        <Switch>
-          <Route path="/" exact />
-          <PrivateRoute path="/profile" component={Profile} />
-          <PrivateRoute path="/external-api" component={ExternalApi} />
-          <PrivateRoute path="/post-csv" component={PostCsv} />
-          <PrivateRoute path="/create-chart" component={CreateChartView} />
-        </Switch>
-      </Router>
-    </div>
-  )
+    <SelectedTableProvider>
+      <div className="App">
+        <Router history={history}>
+          <header>
+            <NavBar />
+          </header>
+          <Switch>
+            <Route path="/" exact />
+            <PrivateRoute path="/profile" component={Profile} />
+            <PrivateRoute path="/external-api" component={ExternalApi} />
+            <PrivateRoute path="/post-csv" component={PostCsv} />
+            <PrivateRoute path="/create-chart" component={CreateChartView} />
+          </Switch>
+        </Router>
+      </div>
+    </SelectedTableProvider>
+  );
 }
 
-export default App
+export default App;
 
 /* TEST AXIOS
    const [state, setState] = useState(null);
