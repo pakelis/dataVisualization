@@ -27,7 +27,8 @@ const SelectedTableColumns = () => {
         }
       })
       .then(res => {
-        console.log(res.data);
+        let data = res.data.map(row => row.column_name);
+        setData(data);
       })
       .catch(err => console.log(err));
   };
@@ -38,7 +39,18 @@ const SelectedTableColumns = () => {
     }
   }, [selectedTable]);
 
-  return <div>Columns</div>;
+  return (
+    <div>
+      <List
+        size="large"
+        header={selectedTable != "" ? <div>{selectedTable}</div> : null}
+        bordered
+        dataSource={data}
+        renderItem={item => <List.Item>{item}</List.Item>}
+        locale={{ emptyText: "You haven't selected any table yet" }}
+      ></List>
+    </div>
+  );
 };
 
 export default SelectedTableColumns;

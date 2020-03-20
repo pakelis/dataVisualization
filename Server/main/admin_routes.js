@@ -128,9 +128,11 @@ router.get("/api/tablecolumns", (req, res) => {
   console.log(tableName);
 
   db.any(
-    `select column_name from information_schema.columns where table_name = '$1'`,
+    `select column_name from information_schema.columns where table_name = '$1:value'`,
     [tableName]
-  ).then(res => console.log(res.data));
+  )
+    .then(data => res.send(data))
+    .catch(err => console.log(err));
 });
 
 module.exports = router;

@@ -64,9 +64,6 @@ const SelectedTable = () => {
           Tables <DownOutlined />
         </Button>
       </Dropdown>
-      {selectedTable != null ? (
-        <div>Selected table - {selectedTable} </div>
-      ) : null}
     </div>
   );
 };
