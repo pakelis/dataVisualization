@@ -102,6 +102,7 @@ router.post("/api/upload", (req, res) => {
   const query = pgp.helpers.insert(rows, cs); // insert multi row data query
 
   console.log(fieldTypes);
+  console.log(tableName);
 
   db.task("create-insert-csv", async t => {
     //First we create empty table
