@@ -51,10 +51,21 @@ router.post("/api/upload", (req, res) => {
       for (let [key, value] of Object.entries(row)) {
         //we loop through all rows, and check their property values
         if (key === fields[index]) {
-          types[index].push(typeof value);
+          let newValue = () => {
+            if (typeof value === "string") {
+              let isDate = Date.parse(value) ? "date" : "string";
+              return isDate;
+            } else if (typeof value === "number") {
+              let isNumber = "number";
+              return isNumber;
+            }
+          };
+
+          types[index].push(newValue());
           /* console.log(
             `index: ${index} , key: ${key} , field: ${fields[index]}`
           );*/
+          // console.log(types);
         }
         index++;
         if (index > sizeOfArray) {
@@ -66,9 +77,17 @@ router.post("/api/upload", (req, res) => {
     let columnTypes = () => {
       //we check types array if every array got the same value
       let columnTypes = [];
+      /* for (let i = 0; i < fields.length; i++) {
+        types[i].every(val => val === "number")
+          ? columnTypes.push("NUMERIC")
+          : columnTypes.push("VARCHAR(255)");
+      }*/
+
       for (let i = 0; i < fields.length; i++) {
         types[i].every(val => val === "number")
           ? columnTypes.push("NUMERIC")
+          : types[i].every(val => val === "date")
+          ? columnTypes.push("DATE")
           : columnTypes.push("VARCHAR(255)");
       }
 
@@ -81,6 +100,8 @@ router.post("/api/upload", (req, res) => {
   const fieldTypes = propTypes(); // get column data types
   const cs = new pgp.helpers.ColumnSet(fields, { table: tableName }); // pgp.helpers.ColumnSet - helper to insert multirow data from pg-promise module
   const query = pgp.helpers.insert(rows, cs); // insert multi row data query
+
+  console.log(fieldTypes);
 
   db.task("create-insert-csv", async t => {
     //First we create empty table
