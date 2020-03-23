@@ -7,6 +7,7 @@ import axios from "axios";
 
 //antd
 import { List, Typography } from "antd";
+import IndicatorSelect from "./IndicatorSelect";
 
 const SelectedTableColumns = () => {
   const [data, setData] = useState();
@@ -27,8 +28,8 @@ const SelectedTableColumns = () => {
         }
       })
       .then(res => {
-        let data = res.data.map(row => row.column_name);
-        setData(data);
+        // let data = res.data.map(row => row.column_name);
+        setData(res.data);
       })
       .catch(err => console.log(err));
   };
@@ -40,16 +41,17 @@ const SelectedTableColumns = () => {
   }, [selectedTable]);
 
   return (
-    <div>
+    <>
       <List
         size="large"
         header={selectedTable != "" ? <div>{selectedTable}</div> : null}
         bordered
         dataSource={data}
-        renderItem={item => <List.Item>{item}</List.Item>}
+        renderItem={item => <List.Item>{item.column_name}</List.Item>}
         locale={{ emptyText: "You haven't selected any table yet" }}
       ></List>
-    </div>
+      {data && <IndicatorSelect columns={data} />}
+    </>
   );
 };
 

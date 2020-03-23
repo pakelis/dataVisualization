@@ -9,7 +9,7 @@ const pgp = require("pg-promise")(initOptions, {
   capSQL: true
 });
 
-// monitor.attach(initOptions)
+// monitor.attach(initOptions);
 
 const cn = {
   user: "postgres",
