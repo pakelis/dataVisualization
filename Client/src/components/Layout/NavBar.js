@@ -1,50 +1,51 @@
-import React from "react";
-import { useAuth0 } from "../../react-auth0-spa";
-import { Link } from "react-router-dom";
+import React from 'react'
+import {useAuth0} from '../../react-auth0-spa'
+import {Link, NavLink} from 'react-router-dom'
 
 // ant-d
-import { Layout, Menu, Button } from "antd";
+import {Layout, Menu, Button} from 'antd'
 
-const { Header, Content, Footer } = Layout;
+const {Header, Content, Footer} = Layout
 
 const NavBar = () => {
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const {isAuthenticated, loginWithRedirect, logout} = useAuth0()
 
   return (
-    <Header style={{ position: "fixed", zIndex: 1, width: "100%" }}>
+    // <Header style={{position: 'fixed', zIndex: 1, width: '100%'}}>
+    <>
       {!isAuthenticated && (
-        <Menu mode="horizontal" theme="dark">
+        <Menu mode="horizontal">
           <Menu.Item>
-            <Button onClick={() => loginWithRedirect}>Login</Button>
+            <a onClick={() => loginWithRedirect({})}>Login</a>
           </Menu.Item>
         </Menu>
       )}
 
       {isAuthenticated && (
-        <Menu theme="dark" mode="horizontal">
+        <Menu mode="horizontal">
           <Menu.Item key="home">
-            {/* <Link to="/">Home</Link>&nbsp; */}
-            Home
+            <NavLink to="/">Home</NavLink>
           </Menu.Item>
           <Menu.Item key="/profile">
-            <Link to="/profile">Profile</Link>
+            <NavLink to="/profile">Profile</NavLink>
           </Menu.Item>
           <Menu.Item key="/external-api">
-            <Link to="/external-api">External API</Link>
+            <NavLink to="/external-api">External API</NavLink>
           </Menu.Item>
           <Menu.Item key="/post-csv">
-            <Link to="/post-csv">Post CVS</Link>
+            <NavLink to="/post-csv">Post CVS</NavLink>
           </Menu.Item>
           <Menu.Item key="/create-chart">
-            <Link to="/create-chart">Create Chart</Link>
+            <NavLink to="/create-chart">Create Chart</NavLink>
           </Menu.Item>
           <Menu.Item key="/logout">
-            <Button onClick={() => logout}>Log out</Button>
+            <a onClick={() => logout()}>Log out</a>
           </Menu.Item>
         </Menu>
       )}
-    </Header>
-  );
-};
+    </>
+    // </Header>
+  )
+}
 
-export default NavBar;
+export default NavBar

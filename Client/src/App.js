@@ -1,42 +1,45 @@
-import React, { useEffect, useState } from "react";
-import { Router, Route, Switch } from "react-router-dom";
+import React, {useEffect, useState} from 'react'
+import {Router, Route, Switch} from 'react-router-dom'
 
-import PrivateRoute from "./components/PrivateRoute";
+import PrivateRoute from './components/PrivateRoute'
 // import NavBar from "./components/NavBar";
-import NavBar from "./components/Layout/NavBar";
-import Profile from "./components/Profile";
-import ExternalApi from "./views/ExternalApi";
-import PostCsv from "./views/PostCsv";
-import CreateChartView from "./views/CreateCart";
-import { useAuth0 } from "./react-auth0-spa";
+import NavBar from './components/Layout/NavBar'
+import Profile from './components/Profile'
+import ExternalApi from './views/ExternalApi'
+import PostCsv from './views/PostCsv'
+import CreateChartView from './views/CreateCart'
+import {useAuth0} from './react-auth0-spa'
 
 //extra libraries
-import history from "./utils/history";
-import axios from "axios";
+import history from './utils/history'
+import axios from 'axios'
 
 //context
-import { SelectedTableProvider } from "./context";
+import {SelectedTableProvider} from './context'
 
 //antd imports
-import { Button } from "antd";
-import { Layout } from "antd";
+import {Button} from 'antd'
+import {Layout} from 'antd'
 
-const { Content, Footer } = Layout;
+//css
+import styles from './App.css'
+
+const {Content, Footer} = Layout
 
 function App() {
   return (
     <SelectedTableProvider>
-      <div className="App">
+      <div className="App" style={{position: 'relative', minHeight: '100vh'}}>
         <Router history={history}>
           <Layout>
             <NavBar />
             <Content
-              className="site-layout"
-              style={{
-                padding: "0 50px",
+              className={styles.contentWrap}
+              /* style={{
+                padding: '0 50px',
                 marginTop: 64,
-                height: "calc(100vh - 135px)" // we set this so our footer is on the bottom
-              }}
+                height: 'calc(100vh - 190px)',
+              }} */
             >
               <Switch>
                 <Route path="/" exact />
@@ -50,16 +53,16 @@ function App() {
               </Switch>
             </Content>
           </Layout>
-          <Footer style={{ textAlign: "center" }}>
+          <Footer className={styles.footer}>
             Data Visualization ©2020 Created by Mantas
           </Footer>
         </Router>
       </div>
     </SelectedTableProvider>
-  );
+  )
 }
 
-export default App;
+export default App
 
 /* TEST AXIOS
    const [state, setState] = useState(null);
