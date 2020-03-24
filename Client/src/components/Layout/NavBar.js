@@ -26,25 +26,20 @@ const NavBar = () => {
             {/* <Link to="/">Home</Link>&nbsp; */}
             Home
           </Menu.Item>
-          <Menu.Item key="profile">
-            {/* <Link to="/profile">Profile</Link> */}
-            Belekas
+          <Menu.Item key="/profile">
+            <Link to="/profile">Profile</Link>
           </Menu.Item>
-          <Menu.Item key="external-api">
-            trys
-            {/* <Link to="/external-api">External API</Link> */}
+          <Menu.Item key="/external-api">
+            <Link to="/external-api">External API</Link>
           </Menu.Item>
-          <Menu.Item key="post-csv">
-            keturi
-            {/* <Link to="/post-csv">Post CVS</Link> */}
+          <Menu.Item key="/post-csv">
+            <Link to="/post-csv">Post CVS</Link>
           </Menu.Item>
-          <Menu.Item key="create-chart">
-            penki
-            {/* <Link to="/create-chart">Create Chart</Link> */}
+          <Menu.Item key="/create-chart">
+            <Link to="/create-chart">Create Chart</Link>
           </Menu.Item>
-          <Menu.Item key="logout">
-            sesi
-            {/* <Button onClick={() => logout}>Log out</Button> */}
+          <Menu.Item key="/logout">
+            <Button onClick={() => logout}>Log out</Button>
           </Menu.Item>
         </Menu>
       )}
