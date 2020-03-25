@@ -1,0 +1,41 @@
+.ant-layout-content {
+  padding-bottom: 2.5rem;
+  padding: 0 50px;
+  margin-top: 64px;
+  position: relative;
+  /* min-height: calc(100vh - 115px); */
+}
+
+.ant-layout-footer {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+}
+
+/* Header  */
+
+.ant-layout-header {
+  /* background: #f0f2f5; */
+  background: #fff;
+  line-height: 48px;
+  height: 48px;
+  display: flex;
+}
+
+.logo {
+  height: 48px;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 500) {
+  .ant-layout-header {
+    padding: 0;
+  }
+  .logo {
+    padding: 0 12px;
+  }
+}

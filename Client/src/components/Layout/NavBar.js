@@ -1,18 +1,32 @@
-import React from 'react'
-import {useAuth0} from '../../react-auth0-spa'
-import {Link, NavLink} from 'react-router-dom'
+import React from "react";
+import { useAuth0 } from "../../react-auth0-spa";
+import { Link, NavLink } from "react-router-dom";
+
+//font
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faProjectDiagram, faCoffee } from "@fortawesome/free-solid-svg-icons";
 
 // ant-d
-import {Layout, Menu, Button} from 'antd'
+import { Layout, Menu, Button } from "antd";
 
-const {Header, Content, Footer} = Layout
+//css
+import "../../../src/styles.css";
+
+const { Header, Content, Footer } = Layout;
 
 const NavBar = () => {
-  const {isAuthenticated, loginWithRedirect, logout} = useAuth0()
+  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
   return (
-    // <Header style={{position: 'fixed', zIndex: 1, width: '100%'}}>
-    <>
+    <Header style={{ position: "fixed", zIndex: 1, width: "100%" }}>
+      <div className="logo">
+        <Link to="/">
+          <FontAwesomeIcon
+            icon={faProjectDiagram}
+            style={{ fontSize: "16px", alignItems: "center" }}
+          />
+        </Link>
+      </div>
       {!isAuthenticated && (
         <Menu mode="horizontal">
           <Menu.Item>
@@ -22,7 +36,7 @@ const NavBar = () => {
       )}
 
       {isAuthenticated && (
-        <Menu mode="horizontal">
+        <Menu mode="horizontal" style={{ display: "flex" }}>
           <Menu.Item key="home">
             <NavLink to="/">Home</NavLink>
           </Menu.Item>
@@ -43,9 +57,8 @@ const NavBar = () => {
           </Menu.Item>
         </Menu>
       )}
-    </>
-    // </Header>
-  )
-}
+    </Header>
+  );
+};
 
-export default NavBar
+export default NavBar;
