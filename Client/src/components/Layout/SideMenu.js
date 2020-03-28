@@ -3,21 +3,21 @@ import React, { useState, useEffect } from "react";
 //ant-d
 import { Drawer } from "antd";
 
-//context
-import { useDrawerValue } from "../../context";
+const SideMenu = ({ show }) => {
+  console.log(show);
+  const [visible, setVisible] = useState(show);
 
-const SideMenu = () => {
-  const { drawerVisible, setDrawerVisible } = useDrawerValue();
+  const onClose = () => {
+    setVisible(false);
+  };
 
   return (
     <Drawer
       title="Drawer"
       placement="right"
       closable={false}
-      //   onClose={onClose}
-      visible={drawerVisible}
-      getContainer={false}
-      style={{ position: "absolute" }}
+      onClose={onClose}
+      visible={visible}
     >
       <p>Content</p>
     </Drawer>

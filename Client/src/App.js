@@ -12,7 +12,6 @@ import CreateChartView from "./views/CreateCart";
 
 //layout
 import NavBar from "./components/Layout/NavBar";
-import SideMenu from "./components/Layout/SideMenu";
 
 //extra libraries
 import history from "./utils/history";
@@ -34,32 +33,26 @@ const { Content, Footer } = Layout;
 function App() {
   return (
     <SelectedTableProvider>
-      <DrawerProvider>
-        <div
-          className="App"
-          style={{ position: "relative", minHeight: "100vh" }}
-        >
-          <Router history={history}>
-            <Layout>
-              <NavBar />
-              <Content>
-                <SideMenu />
-                <Switch>
-                  <Route path="/" exact />
-                  <PrivateRoute path="/profile" component={Profile} />
-                  <PrivateRoute path="/external-api" component={ExternalApi} />
-                  <PrivateRoute path="/post-csv" component={PostCsv} />
-                  <PrivateRoute
-                    path="/create-chart"
-                    component={CreateChartView}
-                  />
-                </Switch>
-              </Content>
-            </Layout>
-            <Footer>Data Visualization ©2020 Created by Mantas</Footer>
-          </Router>
-        </div>
-      </DrawerProvider>
+      <div className="App" style={{ position: "relative", minHeight: "100vh" }}>
+        <Router history={history}>
+          <Layout>
+            <NavBar />
+            <Content>
+              <Switch>
+                <Route path="/" exact />
+                <PrivateRoute path="/profile" component={Profile} />
+                <PrivateRoute path="/external-api" component={ExternalApi} />
+                <PrivateRoute path="/post-csv" component={PostCsv} />
+                <PrivateRoute
+                  path="/create-chart"
+                  component={CreateChartView}
+                />
+              </Switch>
+            </Content>
+          </Layout>
+          <Footer>Data Visualization ©2020 Created by Mantas</Footer>
+        </Router>
+      </div>
     </SelectedTableProvider>
   );
 }

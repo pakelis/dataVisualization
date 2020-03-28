@@ -1,9 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAuth0 } from "../../react-auth0-spa";
 import { Link, NavLink } from "react-router-dom";
-
-//context
-import { useDrawerValue } from "../../context";
+import SideMenu from "./SideMenu";
 
 //font
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -24,17 +22,13 @@ const { Header, Content, Footer } = Layout;
 const NavBar = () => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
-  const { drawerVisible, setDrawerVisible } = useDrawerValue();
-
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   const isBigScreen = useMediaQuery({ query: "(min-device-width: 1824px)" });
 
-  const showDrawer = () => {
-    setDrawerVisible(true);
-  };
+  const [showDrawer, setShowDrawer] = useState(false);
 
-  const onClose = () => {
-    setDrawerVisible(false);
+  const handleDrawer = () => {
+    setShowDrawer(true);
   };
 
   return (
@@ -63,7 +57,7 @@ const NavBar = () => {
                 <NavLink to="/">Home</NavLink>
               </Menu.Item>
               <Menu.Item>
-                <MenuOutlined onClick={showDrawer} />
+                <MenuOutlined onClick={handleDrawer} />
               </Menu.Item>
             </Menu>
           )}
@@ -91,6 +85,7 @@ const NavBar = () => {
           )}
         </>
       )}
+      <SideMenu show={showDrawer} />
     </Header>
   );
 };
