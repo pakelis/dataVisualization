@@ -31,9 +31,9 @@
   align-items: center;
 }
 
-@media screen and (max-width: 500) {
+@media screen and (max-width: 650px) {
   .ant-layout-header {
-    padding: 0;
+    padding: 0px 0px;
   }
   .logo {
     padding: 0 12px;

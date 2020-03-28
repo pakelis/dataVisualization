@@ -4,4 +4,17 @@ import {
   useSelectedTableValue
 } from "./selected-project-context";
 
-export { SelectedTableContext, SelectedTableProvider, useSelectedTableValue };
+import {
+  DrawerContext,
+  DrawerProvider,
+  useDrawerValue
+} from "./drawer-context";
+
+export {
+  SelectedTableContext,
+  SelectedTableProvider,
+  useSelectedTableValue,
+  DrawerContext,
+  DrawerProvider,
+  useDrawerValue
+};
