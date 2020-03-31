@@ -3,13 +3,11 @@
   padding: 0 50px;
   margin-top: 64px;
   position: relative;
-  /* min-height: calc(100vh - 115px); */
+  min-height: calc(100vh - 135px);
 }
 
 .ant-layout-footer {
   width: 100%;
-  position: absolute;
-  bottom: 0;
   display: flex;
   justify-content: center;
 }
@@ -17,11 +15,11 @@
 /* Header  */
 
 .ant-layout-header {
-  /* background: #f0f2f5; */
   background: #fff;
   line-height: 48px;
   height: 48px;
   display: flex;
+  position: relative;
 }
 
 .logo {
@@ -37,5 +35,52 @@
   }
   .logo {
     padding: 0 12px;
+  }
+}
+
+/* Drawer */
+
+.ant-drawer-body {
+  padding: 0;
+  padding-top: 24px;
+}
+
+/* Table */
+
+.ant-table {
+  display: block;
+}
+@media screen and (max-width: 600px) {
+  .ant-table-cell {
+    display: flex;
+    flex-direction: column;
+  }
+  .ant-table-thead > tr th:first-of-type,
+  .ant-table-tbody > tr th:first-of-type,
+  .ant-table-thead > tr td:first-of-type,
+  .ant-table-tbody > tr td:first-of-type {
+    padding-top: 1rem;
+  }
+  .ant-table-thead > tr th:last-of-type,
+  .ant-table-tbody > tr th:last-of-type,
+  .ant-table-thead > tr td:last-of-type,
+  .ant-table-tbody > tr td:last-of-type {
+    padding-bottom: 1rem;
+  }
+  .ant-table-thead > tr > th,
+  .ant-table-tbody > tr > th,
+  .ant-table-thead > tr > td,
+  .ant-table-tbody > tr > td {
+    display: block;
+    width: auto !important;
+    border: none;
+    padding: 0 1rem;
+    font-size: 1.1rem;
+  }
+  .ant-table-thead > tr > th:last-child,
+  .ant-table-tbody > tr > th:last-child,
+  .ant-table-thead > tr > td:last-child,
+  .ant-table-tbody > tr > td:last-child {
+    border-bottom: 1px solid #eee;
   }
 }

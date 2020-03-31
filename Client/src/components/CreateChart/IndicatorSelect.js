@@ -1,24 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 
 //ant d
 
-import { Select } from "antd";
+import { Select, Button } from "antd";
 
 const { Option } = Select;
 
-function handleChange(value) {
+function handleChange(value, placeholder) {
   console.log(`selected ${value}`);
 }
 
 const IndicatorSelect = props => {
-  const { columns } = props;
-  console.log(columns);
+  const {
+    columns,
+    setIndicator,
+    setChartType,
+    setOrder,
+    indicator,
+    order,
+    chartType,
+    handlePreview
+  } = props;
+  // console.log(columns);
 
   return (
     <>
       <Select
         placeholder="Select indicator"
-        onChange={handleChange}
+        onChange={value => setIndicator(value)}
         style={{ width: 200 }}
       >
         {columns.map((row, i) =>
@@ -31,12 +40,24 @@ const IndicatorSelect = props => {
       </Select>
       <Select
         placeholder="Select order"
-        onChange={handleChange}
+        onChange={value => setOrder(value)}
         style={{ width: 150 }}
       >
         <Option value="ascending"> Ascending</Option>
         <Option value="descending"> Descending</Option>
       </Select>
+      <Select
+        placeholder="Chart type"
+        onChange={value => setChartType(value)}
+        style={{ width: 150 }}
+      >
+        <Option value="columnChart">Column chart</Option>
+        <Option value="barChart">Bar chart</Option>
+        <Option value="pieChart">Pie chart</Option>
+      </Select>
+      {indicator && order && chartType && (
+        <Button onClick={handlePreview}>Chart preview</Button>
+      )}
     </>
   );
 };

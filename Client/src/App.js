@@ -12,6 +12,7 @@ import CreateChartView from "./views/CreateCart";
 
 //layout
 import NavBar from "./components/Layout/NavBar";
+import SideMenu from "./components/Layout/SideMenu";
 
 //extra libraries
 import history from "./utils/history";
@@ -19,7 +20,6 @@ import axios from "axios";
 
 //context
 import { SelectedTableProvider } from "./context";
-import { DrawerProvider } from "./context";
 
 //antd imports
 import { Button } from "antd";

@@ -9,7 +9,16 @@ import axios from "axios";
 import { List, Typography } from "antd";
 import IndicatorSelect from "./IndicatorSelect";
 
-const SelectedTableColumns = () => {
+const SelectedTableColumns = ({
+  setIndicator,
+  indicator,
+  order,
+  setOrder,
+  chartType,
+  setChartType,
+  handlePreview,
+  handleNames
+}) => {
   const [data, setData] = useState();
   const [selectedTableColumns, setSelectedTableColumns] = useState();
   const { getTokenSilently } = useAuth0();
@@ -28,7 +37,8 @@ const SelectedTableColumns = () => {
         }
       })
       .then(res => {
-        // let data = res.data.map(row => row.column_name);
+        let columnNames = res.data.map(row => row.column_name);
+        handleNames(columnNames);
         setData(res.data);
       })
       .catch(err => console.log(err));
@@ -50,7 +60,18 @@ const SelectedTableColumns = () => {
         renderItem={item => <List.Item>{item.column_name}</List.Item>}
         locale={{ emptyText: "You haven't selected any table yet" }}
       ></List>
-      {data && <IndicatorSelect columns={data} />}
+      {data && (
+        <IndicatorSelect
+          columns={data}
+          setIndicator={setIndicator}
+          indicator={indicator}
+          setOrder={setOrder}
+          order={order}
+          setChartType={setChartType}
+          chartType={chartType}
+          handlePreview={handlePreview}
+        />
+      )}
     </>
   );
 };
