@@ -6,7 +6,7 @@ import { useAuth0 } from "../../react-auth0-spa";
 
 import { Form, Input, Button, Typography, Checkbox, message } from "antd";
 
-const { Title } = Typography;
+// const { Title } = Typography;
 //TODO make data type timestamp or date , not varchar !!!!
 
 const layout = {
@@ -30,7 +30,6 @@ const FormSubmit = props => {
   const { getTokenSilently } = useAuth0();
   const { rows, fields, fileName } = props;
 
-  const [loading, setLoading] = useState(false);
   const [checked, setChecked] = useState(false);
 
   /* const onFinish = values => {

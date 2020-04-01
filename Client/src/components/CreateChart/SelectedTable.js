@@ -7,7 +7,7 @@ import axios from "axios";
 
 //antd
 import { DownOutlined, UserOutlined } from "@ant-design/icons";
-import { Menu, Dropdown, Button, message, Tooltip } from "antd";
+import { Menu, Dropdown, Button, message } from "antd";
 
 function handleButtonClick(e) {
   message.info("Click on left button.");
@@ -18,7 +18,7 @@ const SelectedTable = () => {
   const [tableNames, setTableNames] = useState([]);
   const { getTokenSilently } = useAuth0();
   //this comes from context
-  const { setSelectedTable, selectedTable } = useSelectedTableValue();
+  const { setSelectedTable } = useSelectedTableValue();
 
   const getTableNames = async () => {
     const token = await getTokenSilently();
