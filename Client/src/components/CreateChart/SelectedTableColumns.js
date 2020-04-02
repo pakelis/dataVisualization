@@ -12,8 +12,8 @@ import IndicatorSelect from './IndicatorSelect'
 const SelectedTableColumns = ({
   setIndicator,
   indicator,
-  order,
-  setOrder,
+  chartNameField,
+  setChartNameField,
   chartType,
   setChartType,
   handlePreview,
@@ -65,8 +65,8 @@ const SelectedTableColumns = ({
           columns={data}
           setIndicator={setIndicator}
           indicator={indicator}
-          setOrder={setOrder}
-          order={order}
+          chartNameField={chartNameField}
+          setChartNameField={setChartNameField}
           setChartType={setChartType}
           chartType={chartType}
           handlePreview={handlePreview}
