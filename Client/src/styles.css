@@ -84,3 +84,8 @@
     border-bottom: 1px solid #eee;
   }
 }
+
+/* Menu */
+.ant-menu-horizontal {
+  border-bottom: none;
+}
