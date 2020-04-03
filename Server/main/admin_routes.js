@@ -157,4 +157,11 @@ router.get("/api/tablecolumns", (req, res) => {
     .catch(err => console.log(err));
 });
 
+router.get("/api/selectedtable", (res, res) => {
+  const tableName = req.query.tableName;
+  console.log(tableName);
+
+  db.any(`select * `);
+});
+
 module.exports = router;
