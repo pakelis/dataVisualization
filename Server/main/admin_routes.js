@@ -157,11 +157,13 @@ router.get("/api/tablecolumns", (req, res) => {
     .catch(err => console.log(err));
 });
 
-router.get("/api/selectedtable", (res, res) => {
+router.get("/api/selectedtable", (req, res) => {
   const tableName = req.query.tableName;
   console.log(tableName);
 
-  db.any(`select * `);
+  db.any(`select * from $1:name`, [tableName])
+    .then(data => res.send(data))
+    .catch(err => console.log(err));
 });
 
 module.exports = router;

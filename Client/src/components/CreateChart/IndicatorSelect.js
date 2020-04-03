@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, {useState} from 'react'
 
 //ant d
 
-import { Select, Button } from "antd";
+import {Select, Button} from 'antd'
 
-const { Option } = Select;
+const {Option} = Select
 
 function handleChange(value, placeholder) {
-  console.log(`selected ${value}`);
+  console.log(`selected ${value}`)
 }
 
 const IndicatorSelect = props => {
@@ -15,12 +15,12 @@ const IndicatorSelect = props => {
     columns,
     setIndicator,
     setChartType,
-    setOrder,
     indicator,
-    order,
+    chartNameField,
+    setChartNameField,
     chartType,
-    handlePreview
-  } = props;
+    handlePreview,
+  } = props
   // console.log(columns);
 
   return (
@@ -28,38 +28,43 @@ const IndicatorSelect = props => {
       <Select
         placeholder="Select indicator"
         onChange={value => setIndicator(value)}
-        style={{ width: 200 }}
+        style={{width: 200}}
       >
         {columns.map((row, i) =>
-          row.data_type != "character varying" ? (
+          row.data_type != 'character varying' ? (
             <Option value={row.column_name} key={i}>
               {row.column_name}
             </Option>
-          ) : null
+          ) : null,
         )}
       </Select>
       <Select
-        placeholder="Select order"
-        onChange={value => setOrder(value)}
-        style={{ width: 150 }}
+        placeholder="Chart Name Field"
+        onChange={value => setChartNameField(value)}
+        style={{width: 150}}
       >
-        <Option value="ascending"> Ascending</Option>
-        <Option value="descending"> Descending</Option>
+        {columns.map((row, i) =>
+          row.data_type === 'character varying' ? (
+            <Option value={row.column_name} key={i}>
+              {row.column_name}
+            </Option>
+          ) : null,
+        )}
       </Select>
       <Select
         placeholder="Chart type"
         onChange={value => setChartType(value)}
-        style={{ width: 150 }}
+        style={{width: 150}}
       >
         <Option value="columnChart">Column chart</Option>
         <Option value="barChart">Bar chart</Option>
         <Option value="pieChart">Pie chart</Option>
       </Select>
-      {indicator && order && chartType && (
+      {indicator && chartNameField && chartType && (
         <Button onClick={handlePreview}>Chart preview</Button>
       )}
     </>
-  );
-};
+  )
+}
 
-export default IndicatorSelect;
+export default IndicatorSelect

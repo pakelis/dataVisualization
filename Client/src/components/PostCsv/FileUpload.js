@@ -1,121 +1,122 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, {Fragment, useEffect, useState} from 'react'
 
-import axios from "axios";
-import Papa from "papaparse";
+import axios from 'axios'
+import Papa from 'papaparse'
 
-import { useAuth0 } from "../../react-auth0-spa";
+import {useAuth0} from '../../react-auth0-spa'
 
-import { Upload, message, Button } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
-import ShowUploadedData from "./ShowUploadedData";
+import {Upload, message, Button} from 'antd'
+import {UploadOutlined} from '@ant-design/icons'
+import ShowUploadedData from './ShowUploadedData'
 
 const FileUpload = () => {
-  const { getTokenSilently } = useAuth0();
+  const {getTokenSilently} = useAuth0()
 
   const [file, setFile] = useState({
     selectedFile: null,
     selectedFileList: [],
-    selectedFileName: ""
-  });
-  const [dataRows, setDataRows] = useState({});
-  const [columns, setColumns] = useState();
+    selectedFileName: '',
+  })
+  const [dataRows, setDataRows] = useState({})
+  const [columns, setColumns] = useState()
 
   const getToken = async () => {
-    const token = await getTokenSilently();
+    const token = await getTokenSilently()
 
     // return (props.headers.authorization = `Bearer ${token}`);
-  };
+  }
 
-  const dummyRequest = ({ file, onSuccess }) => {
+  const dummyRequest = ({file, onSuccess}) => {
     setTimeout(() => {
-      onSuccess("ok");
-    }, 0);
-  };
+      onSuccess('ok')
+    }, 0)
+  }
 
   function cleanUpSpecialChars(str) {
     // we need this to clean up header
     return str
-      .replace(/[ĖĘ]/g, "E")
-      .replace(/[ėę]/g, "e")
-      .replace(/[č]/g, "c")
-      .replace(/[Č]/g, "C")
-      .replace(/[ą]/g, "a")
-      .replace(/[Ą]/g, "A")
-      .replace(/[į]/g, "i")
-      .replace(/[Į]/g, "I")
-      .replace(/[ųū]/g, "u")
-      .replace(/[ŲŪ]/g, "U")
-      .replace(/[Š]/g, "S")
-      .replace(/[š]/g, "s")
-      .replace(/ /g, "_")
-      .replace(/\./g, "")
-      .replace("{", "")
-      .replace("}", "")
-      .replace("(", "")
-      .replace(")", "")
-      .replace(".", "")
-      .replace('"', "")
-      .replace(/[^a-zA-Z0-9_]/, "");
+      .replace(/[ĖĘ]/g, 'E')
+      .replace(/[ėę]/g, 'e')
+      .replace(/[č]/g, 'c')
+      .replace(/[Č]/g, 'C')
+      .replace(/[ą]/g, 'a')
+      .replace(/[Ą]/g, 'A')
+      .replace(/[į]/g, 'i')
+      .replace(/[Į]/g, 'I')
+      .replace(/[ųū]/g, 'u')
+      .replace(/[ŲŪ]/g, 'U')
+      .replace(/[Š]/g, 'S')
+      .replace(/[š]/g, 's')
+      .replace(/ /g, '_')
+      .replace(/\./g, '')
+      .replace('{', '')
+      .replace('}', '')
+      .replace('(', '')
+      .replace(')', '')
+      .replace('.', '')
+      .replace('"', '')
+      .replace(/[^a-zA-Z0-9_]/, '')
   }
 
   useEffect(() => {
-    getToken();
-  }, []);
+    getToken()
+  }, [])
 
   const parser = file => {
-    let rows = {};
-    console.log(file);
+    let rows = {}
+    console.log(file)
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
       dynamicTyping: true,
       transformHeader: header => {
-        return cleanUpSpecialChars(header);
+        return cleanUpSpecialChars(header)
       },
       complete: results => {
-        console.log(results);
-        rows.data = results.data;
-        rows.errors = results.errors;
-        rows.meta = results.meta;
-        rows.columns = Object.keys(results.data[0]).length;
-      }
-    });
+        console.log(results)
+        rows.data = results.data
+        rows.errors = results.errors
+        rows.meta = results.meta
+        rows.columns = Object.keys(results.data[0]).length
+      },
+    })
 
-    return rows;
-  };
+    return rows
+  }
 
   const beforeUpload = file => {
-    const isType = file.type === "application/vnd.ms-excel";
+    const isType =
+      file.type === 'application/vnd.ms-excel' || 'CSV document (text/csv)'
 
     if (!isType) {
-      message.error("You can only upload .csv files");
-      return false;
+      message.error('You can only upload .csv files')
+      return false
     }
 
-    const data = parser(file);
+    const data = parser(file)
 
-    setDataRows(data);
-  };
+    setDataRows(data)
+  }
 
   const onChange = info => {
-    const nextState = {};
+    const nextState = {}
     switch (info.file.status) {
-      case "uploading":
-        nextState.selectedFileList = [info.file];
-        break;
-      case "done":
-        nextState.selectedFile = info.file;
-        nextState.selectedFileList = [info.file];
-        nextState.selectedFileName = [info.file.name];
-        break;
+      case 'uploading':
+        nextState.selectedFileList = [info.file]
+        break
+      case 'done':
+        nextState.selectedFile = info.file
+        nextState.selectedFileList = [info.file]
+        nextState.selectedFileName = [info.file.name]
+        break
 
       default:
         // error or removed
-        nextState.selectedFile = null;
-        nextState.selectedFileList = [];
+        nextState.selectedFile = null
+        nextState.selectedFileList = []
     }
-    setFile(nextState);
-  };
+    setFile(nextState)
+  }
 
   return (
     <div>
@@ -131,8 +132,8 @@ const FileUpload = () => {
       </Upload>
       <ShowUploadedData data={dataRows} fileName={file.selectedFileName} />
     </div>
-  );
-};
+  )
+}
 
 // export default Form.create()(FileUpload);
-export default FileUpload;
+export default FileUpload
