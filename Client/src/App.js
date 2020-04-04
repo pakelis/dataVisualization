@@ -1,39 +1,39 @@
-import React, { useEffect, useState } from "react";
-import { Router, Route, Switch } from "react-router-dom";
+import React, {useEffect, useState} from 'react'
+import {Router, Route, Switch} from 'react-router-dom'
 
-import PrivateRoute from "./components/PrivateRoute";
-import Profile from "./components/Profile";
-import { useAuth0 } from "./react-auth0-spa";
+import PrivateRoute from './components/PrivateRoute'
+import Profile from './components/Profile'
+import {useAuth0} from './react-auth0-spa'
 
 //views
-import ExternalApi from "./views/ExternalApi";
-import PostCsv from "./views/PostCsv";
-import CreateChartView from "./views/CreateCart";
+import ExternalApi from './views/ExternalApi'
+import PostCsv from './views/PostCsv'
+import CreateChartView from './views/CreateCart'
 
 //layout
-import NavBar from "./components/Layout/NavBar";
-import SideMenu from "./components/Layout/SideMenu";
+import NavBar from './components/Layout/NavBar'
+import SideMenu from './components/Layout/SideMenu'
 
 //extra libraries
-import history from "./utils/history";
-import axios from "axios";
+import history from './utils/history'
+import axios from 'axios'
 
 //context
-import { SelectedTableProvider } from "./context";
+import {SelectedTableProvider} from './context'
 
 //antd imports
-import { Button } from "antd";
-import { Layout } from "antd";
+import {Button} from 'antd'
+import {Layout} from 'antd'
 
 //css
-import "./styles.css";
+import './styles.css'
 
-const { Content, Footer } = Layout;
+const {Content, Footer} = Layout
 
 function App() {
   return (
     <SelectedTableProvider>
-      <div className="App" style={{ position: "relative", minHeight: "100vh" }}>
+      <div className="App" style={{position: 'relative', minHeight: '100vh'}}>
         <Router history={history}>
           <Layout>
             <NavBar />
@@ -54,10 +54,10 @@ function App() {
         </Router>
       </div>
     </SelectedTableProvider>
-  );
+  )
 }
 
-export default App;
+export default App
 
 /* TEST AXIOS
    const [state, setState] = useState(null);

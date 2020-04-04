@@ -93,3 +93,9 @@ html {
 .ant-menu-horizontal {
   border-bottom: none;
 }
+
+/* Content */
+
+.ant-layout {
+  overflow-x: hidden;
+}

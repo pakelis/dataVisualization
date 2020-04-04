@@ -1,5 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useAuth0 } from "../../react-auth0-spa";
+import React, {useState, useEffect} from 'react'
+import CustomTooltip from './CustomTooltip'
+import {useAuth0} from '../../react-auth0-spa'
+
+//react-responsive
+import {useMediaQuery} from 'react-responsive'
 
 //recharts
 import {
@@ -11,71 +15,66 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer
-} from "recharts";
+  ResponsiveContainer,
+} from 'recharts'
 
 //libs
-import axios from "axios";
+import axios from 'axios'
 
 //context
-import { useSelectedTableValue } from "../../context";
+import {useSelectedTableValue} from '../../context'
 
-const ChartPreview = ({
-  indicator,
-  chartNameField,
-  chartType,
-  tableColumns
-}) => {
-  const { selectedTable } = useSelectedTableValue();
-  const { getTokenSilently } = useAuth0();
-  const [responseData, setResponseData] = useState();
-  const [chartData, setChartData] = useState();
+const ChartPreview = ({indicator, chartNameField, chartType, tableColumns}) => {
+  const {selectedTable} = useSelectedTableValue()
+  const {getTokenSilently} = useAuth0()
+  const [responseData, setResponseData] = useState()
+  const [chartData, setChartData] = useState()
+  const [dataMax, setDataMax] = useState()
+  const [customTooltipData, setCustomTooltipData] = useState()
+
+  const isTabletOrMobile = useMediaQuery({query: '(max-width: 1224px)'})
+  const isDesktopOrLaptop = useMediaQuery({query: '(min-width: 1224px)'})
 
   useEffect(() => {
-    getData();
-  }, [selectedTable]);
+    getData()
+  }, [selectedTable, chartNameField, indicator, chartType])
 
   const getData = async () => {
-    const token = await getTokenSilently();
+    const token = await getTokenSilently()
 
     let res = await axios
-      .get("/admin/api/selectedtable", {
+      .get('/admin/api/selectedtable', {
         params: {
-          tableName: selectedTable
+          tableName: selectedTable,
         },
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
       .then(res => {
-        setResponseData(res.data);
-        console.log(res.data);
+        setResponseData(res.data)
 
         let chart = res.data.map(val => {
           return {
             name: val[chartNameField],
-            [indicator]: val[indicator]
-          };
-        });
+            [indicator]: val[indicator],
+            year: val.Metai,
+          }
+        })
 
-        let dataMax = res.data.reduce((prev, current) => {
-          return prev[indicator] < current[indicator]
-            ? prev[indicator]
-            : current[indicator];
-        });
+        setCustomTooltipData(res.data.map(val => val.Metai))
 
-        console.log(dataMax);
-        console.log(indicator);
+        setDataMax(Math.max(...res.data.map(val => val[indicator])) + 100)
 
-        setChartData(chart);
+        setChartData(chart)
       })
-      .catch(err => console.log(err));
-  };
+      .catch(err => console.log(err))
+  }
 
   return (
     <div>
-      {chartType === "barChart" ? (
-        <ResponsiveContainer width="95%" height={1400}>
+      {chartType === 'barChart' ? (
+        <ResponsiveContainer width="95%" height={1800}>
           <BarChart
             width={850}
             height={1800}
@@ -83,17 +82,23 @@ const ChartPreview = ({
             layout="vertical"
           >
             <CartesianGrid strokeDasharray="3 3" vertical={true} />
-            <XAxis type="number" domain={[0, 5000]} />
-            <YAxis type="category" dataKey="name" width={440} interval={0} />
+            <XAxis type="number" domain={[0, dataMax]} />
+            <YAxis
+              type="category"
+              dataKey="name"
+              width={isTabletOrMobile ? 0 : 340}
+              interval={0}
+            />
             {/* interval on axis shows all categories */}
-            <Tooltip />
+            <Tooltip content={<CustomTooltip payload={customTooltipData} />} />
+            {/* <CustomTooltip /> */}
             <Legend />
             <Bar dataKey={indicator} fill="#8884d8" />
           </BarChart>
         </ResponsiveContainer>
       ) : null}
     </div>
-  );
-};
+  )
+}
 
-export default ChartPreview;
+export default ChartPreview
