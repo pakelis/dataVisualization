@@ -2,12 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useAuth0 } from "../../react-auth0-spa";
 import { useSelectedTableValue } from "../../context";
 
+//react-responsive
+import { useMediaQuery } from "react-responsive";
+
 //libs
 import axios from "axios";
 
 //antd
 import { DownOutlined, UserOutlined } from "@ant-design/icons";
-import { Menu, Dropdown, Button, message } from "antd";
+import { message, Typography, List, Radio } from "antd";
+
+const { Title, Text } = Typography;
 
 function handleButtonClick(e) {
   message.info("Click on left button.");
@@ -17,8 +22,9 @@ function handleButtonClick(e) {
 const SelectedTable = () => {
   const [tableNames, setTableNames] = useState([]);
   const { getTokenSilently } = useAuth0();
-  //this comes from context
   const { setSelectedTable } = useSelectedTableValue();
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
 
   const getTableNames = async () => {
     const token = await getTokenSilently();
@@ -26,12 +32,12 @@ const SelectedTable = () => {
     let res = await axios
       .get("/admin/api/tablenames", {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       })
-      .then(res => {
+      .then((res) => {
         let names = [];
-        res.data.map(table => names.push(table.tablename));
+        res.data.map((table) => names.push(table.tablename));
         setTableNames(names);
       });
   };
@@ -40,30 +46,33 @@ const SelectedTable = () => {
     getTableNames();
   }, []);
 
-  const handleMenuClick = e => {
-    setSelectedTable(tableNames[e.key]); // e.key get index of dropdown
+  const onChange = (e) => {
+    console.log("radio checked", e.target.value);
   };
 
-  const menu = (
-    <Menu onClick={handleMenuClick}>
-      {tableNames.map((name, index) => {
-        return (
-          <Menu.Item key={index}>
-            <UserOutlined />
-            {name}
-          </Menu.Item>
-        );
-      })}
-    </Menu>
-  );
-
   return (
-    <div>
-      <Dropdown overlay={menu}>
-        <Button>
-          Tables <DownOutlined />
-        </Button>
-      </Dropdown>
+    <div className="list-wrapper">
+      <Title level={isTabletOrMobile ? 4 : 3} style={{ textAlign: "center" }}>
+        Select Table from the list
+      </Title>
+      <Radio.Group onChange={onChange}>
+        <List
+          size="small"
+          itemLayout="horizontal"
+          dataSource={tableNames}
+          renderItem={(item, index) => (
+            <List.Item>
+              <List.Item.Meta
+                title={
+                  <Radio value={index} onClick={() => setSelectedTable(item)}>
+                    {item}
+                  </Radio>
+                }
+              ></List.Item.Meta>
+            </List.Item>
+          )}
+        ></List>
+      </Radio.Group>
     </div>
   );
 };
