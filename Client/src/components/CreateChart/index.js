@@ -29,24 +29,26 @@ const CreateChart = () => {
       <section id="chart-select">
         <ChartSelect />
       </section>
-      <SelectedTableColumns
-        setIndicator={setIndicator}
-        indicator={indicator}
-        chartNameField={chartNameField}
-        setChartNameField={setChartNameField}
-        setChartType={setChartType}
-        chartType={chartType}
-        handlePreview={handlePreview}
-        handleNames={handleNames}
-      />
-      {showChart && (
-        <ChartPreview
+      <section id="chart-creation">
+        <SelectedTableColumns
+          setIndicator={setIndicator}
           indicator={indicator}
           chartNameField={chartNameField}
+          setChartNameField={setChartNameField}
+          setChartType={setChartType}
           chartType={chartType}
-          tableColumns={tableNames}
+          handlePreview={handlePreview}
+          handleNames={handleNames}
         />
-      )}
+        {showChart && (
+          <ChartPreview
+            indicator={indicator}
+            chartNameField={chartNameField}
+            chartType={chartType}
+            tableColumns={tableNames}
+          />
+        )}
+      </section>
     </div>
   );
 };

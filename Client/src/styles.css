@@ -127,3 +127,9 @@ html {
 .chart-icon {
   font-size: 128px;
 }
+
+.cardActive {
+  /* background: #1da57a; */
+  /* background: rgb(29, 165, 122, 0.4); */
+  background: rgb(29, 165, 122, 0.8);
+}
