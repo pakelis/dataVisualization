@@ -1,75 +1,84 @@
-import React, { useState } from "react";
-import { useSelectedTableValue } from "../../context";
+import React, {useState, useEffect} from 'react'
+import {useSelectedTableValue} from '../../context'
 
 //ant
-import { List, Card } from "antd";
-import { BarChartOutlined, PieChartOutlined } from "@ant-design/icons";
+import {List, Card, Typography} from 'antd'
+import {BarChartOutlined, PieChartOutlined} from '@ant-design/icons'
 
-const { Meta } = Card;
+const {Text} = Typography
+
+const {Meta} = Card
 
 const data = [
   {
-    title: "Bar Chart",
+    title: 'Bar Chart',
     icon: (
       <BarChartOutlined
         rotate={-90}
         className="chart-icon"
-        style={{ transform: "scaleX(-1)" }}
+        style={{transform: 'scaleX(-1)'}}
         //Flipping image with transform: "scaleX(-1)"
       />
     ),
-    cardName: "barChart",
+    cardName: 'barChart',
   },
   {
-    title: "Column Chart",
+    title: 'Column Chart',
     icon: <BarChartOutlined className="chart-icon" />,
-    cardName: "columnChart",
+    cardName: 'columnChart',
   },
   {
-    title: "Pie Chart",
+    title: 'Pie Chart',
     icon: <PieChartOutlined className="chart-icon" />,
-    cardName: "pieChart",
+    cardName: 'pieChart',
   },
-];
+]
 
-const ChartSelect = () => {
-  const [activeCard, setActiveCard] = useState();
-  const { selectedTable } = useSelectedTableValue();
+const ChartSelect = ({handleChartType, chartType}) => {
+  const {selectedTable, setSelectedTable} = useSelectedTableValue()
 
-  const handleActive = (name) => {
-    setActiveCard(name);
-  };
+  useEffect(() => {
+    //we set SelectedTable to null when component unmounts
+    return () => setSelectedTable(null)
+  }, [])
 
   return (
     <>
       {selectedTable != null ? (
-        <List
-          grid={{
-            gutter: 16,
-            xs: 1,
-            sm: 2,
-            md: 4,
-            lg: 4,
-            xl: 6,
-            xxl: 8,
-          }}
-          dataSource={data}
-          renderItem={(item, index) => (
-            <List.Item>
-              <Card
-                hoverable
-                cover={item.icon}
-                onClick={() => handleActive(item.cardName)}
-                className={activeCard === item.cardName ? "cardActive" : null}
-              >
-                <Meta title={item.title} style={{ textAlign: "center" }} />
-              </Card>
-            </List.Item>
-          )}
-        ></List>
+        <div className="select-wrapper">
+          <div className="text-wrapper">
+            <Text strong className="section__text">
+              Select chart
+            </Text>
+          </div>
+          <List
+            grid={{
+              gutter: 16,
+              xs: 1,
+              sm: 2,
+              md: 4,
+              lg: 4,
+              xl: 6,
+              xxl: 8,
+            }}
+            dataSource={data}
+            renderItem={(item, index) => (
+              <List.Item>
+                <Card
+                  hoverable
+                  cover={item.icon}
+                  onClick={() => handleChartType(item.cardName)}
+                  className={chartType === item.cardName ? 'cardActive' : null}
+                >
+                  <Meta title={item.title} style={{textAlign: 'center'}} />
+                </Card>
+              </List.Item>
+            )}
+          ></List>
+        </div>
       ) : null}
     </>
-  );
-};
+  )
+}
 
-export default ChartSelect;
+export default ChartSelect

@@ -9,6 +9,8 @@ import axios from 'axios'
 import {List, Typography} from 'antd'
 import IndicatorSelect from './IndicatorSelect'
 
+const {Text} = Typography
+
 const SelectedTableColumns = ({
   setIndicator,
   indicator,
@@ -36,12 +38,12 @@ const SelectedTableColumns = ({
           authorization: `Bearer ${token}`,
         },
       })
-      .then(res => {
-        let columnNames = res.data.map(row => row.column_name)
+      .then((res) => {
+        let columnNames = res.data.map((row) => row.column_name)
         handleNames(columnNames)
         setData(res.data)
       })
-      .catch(err => console.log(err))
+      .catch((err) => console.log(err))
   }
 
   useEffect(() => {
@@ -52,25 +54,32 @@ const SelectedTableColumns = ({
 
   return (
     <>
-      <List
+      {/* <List 
         size="large"
         header={selectedTable !== '' ? <div>{selectedTable}</div> : null}
         bordered
         dataSource={data}
         renderItem={item => <List.Item>{item.column_name}</List.Item>}
         locale={{emptyText: "You haven't selected any table yet"}}
-      ></List>
+      ></List> */}
       {data && (
-        <IndicatorSelect
-          columns={data}
-          setIndicator={setIndicator}
-          indicator={indicator}
-          chartNameField={chartNameField}
-          setChartNameField={setChartNameField}
-          setChartType={setChartType}
-          chartType={chartType}
-          handlePreview={handlePreview}
-        />
+        <div className="select-wrapper">
+          <div className="text-wrapper">
+            <Text strong className="section__text">
+              Map your dimensions
+            </Text>
+          </div>
+          <IndicatorSelect
+            columns={data}
+            setIndicator={setIndicator}
+            indicator={indicator}
+            chartNameField={chartNameField}
+            setChartNameField={setChartNameField}
+            setChartType={setChartType}
+            chartType={chartType}
+            handlePreview={handlePreview}
+          />
+        </div>
       )}
     </>
   )

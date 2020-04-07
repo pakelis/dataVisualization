@@ -1,50 +1,52 @@
-import React, { useState } from "react";
-import { useAuth0 } from "../../react-auth0-spa";
-import { Link, NavLink } from "react-router-dom";
-import SideMenu from "./SideMenu";
-import LogoutModal from "./LogoutModal";
+import React, {useState} from 'react'
+import {useAuth0} from '../../react-auth0-spa'
+import {Link, NavLink} from 'react-router-dom'
+import SideMenu from './SideMenu'
+import LogoutModal from './LogoutModal'
 
 //font
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faProjectDiagram } from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faProjectDiagram} from '@fortawesome/free-solid-svg-icons'
 
 // ant-d
-import { Layout, Menu, Button } from "antd";
-import { MenuOutlined } from "@ant-design/icons";
+import {Layout, Menu, Button} from 'antd'
+import {MenuOutlined} from '@ant-design/icons'
 
 //css
-import "../../../src/styles.css";
+import '../../../src/styles.css'
 
 //react-responsive
-import { useMediaQuery } from "react-responsive";
+import {useMediaQuery} from 'react-responsive'
 
-const { Header, Content, Footer } = Layout;
+//TODO make navbar narrower so it fits our layout content
+
+const {Header, Content, Footer} = Layout
 
 const NavBar = () => {
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const {isAuthenticated, loginWithRedirect, logout} = useAuth0()
 
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
-  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
+  const isTabletOrMobile = useMediaQuery({query: '(max-width: 1224px)'})
+  const isDesktopOrLaptop = useMediaQuery({query: '(min-width: 1224px)'})
 
-  const [showDrawer, setShowDrawer] = useState(false);
-  const [showLogout, setShowLogout] = useState(false);
+  const [showDrawer, setShowDrawer] = useState(false)
+  const [showLogout, setShowLogout] = useState(false)
 
   const handleDrawer = () => {
-    setShowDrawer(!showDrawer);
-  };
+    setShowDrawer(!showDrawer)
+  }
 
   const handleLogout = () => {
-    setShowLogout(!showLogout);
-  };
+    setShowLogout(!showLogout)
+  }
 
   return (
     <>
-      <Header style={{ zIndex: 1, width: "100%" }}>
+      <Header style={{zIndex: 1, width: '100%'}}>
         <div className="logo">
           <Link to="/">
             <FontAwesomeIcon
               icon={faProjectDiagram}
-              style={{ fontSize: "16px", alignItems: "center" }}
+              style={{fontSize: '16px', alignItems: 'center'}}
             />
           </Link>
         </div>
@@ -59,14 +61,14 @@ const NavBar = () => {
         {isAuthenticated && (
           <>
             {isTabletOrMobile && (
-              <Menu mode="horizontal" style={{ display: "flex" }}>
+              <Menu mode="horizontal" style={{display: 'flex'}}>
                 <Menu.Item onClick={handleDrawer}>
                   <MenuOutlined />
                 </Menu.Item>
               </Menu>
             )}
             {isDesktopOrLaptop && (
-              <Menu mode="horizontal" style={{ display: "flex" }}>
+              <Menu mode="horizontal" style={{display: 'flex'}}>
                 <Menu.Item key="home">
                   <NavLink to="/">Home</NavLink>
                 </Menu.Item>
@@ -101,7 +103,7 @@ const NavBar = () => {
         setShowLogout={setShowLogout}
       />
     </>
-  );
-};
+  )
+}
 
-export default NavBar;
+export default NavBar
