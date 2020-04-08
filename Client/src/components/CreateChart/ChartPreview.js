@@ -1,9 +1,12 @@
-import React, {useState, useEffect} from 'react'
-import CustomTooltip from './CustomTooltip'
-import {useAuth0} from '../../react-auth0-spa'
+import React, { useState, useEffect } from "react";
+import CustomTooltip from "./CustomTooltip";
+import { useAuth0 } from "../../react-auth0-spa";
+
+//ant-d
+import { Col, Row } from "antd";
 
 //react-responsive
-import {useMediaQuery} from 'react-responsive'
+import { useMediaQuery } from "react-responsive";
 
 //recharts
 import {
@@ -16,34 +19,39 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-} from 'recharts'
+} from "recharts";
 
 //libs
-import axios from 'axios'
+import axios from "axios";
 
 //context
-import {useSelectedTableValue} from '../../context'
+import { useSelectedTableValue } from "../../context";
 
-const ChartPreview = ({indicator, chartNameField, chartType, tableColumns}) => {
-  const {selectedTable} = useSelectedTableValue()
-  const {getTokenSilently} = useAuth0()
-  const [responseData, setResponseData] = useState()
-  const [chartData, setChartData] = useState()
-  const [dataMax, setDataMax] = useState()
-  const [customTooltipData, setCustomTooltipData] = useState()
+const ChartPreview = ({
+  indicator,
+  chartNameField,
+  chartType,
+  tableColumns,
+}) => {
+  const { selectedTable } = useSelectedTableValue();
+  const { getTokenSilently } = useAuth0();
+  const [responseData, setResponseData] = useState();
+  const [chartData, setChartData] = useState();
+  const [dataMax, setDataMax] = useState();
+  const [customTooltipData, setCustomTooltipData] = useState();
 
-  const isTabletOrMobile = useMediaQuery({query: '(max-width: 1224px)'})
-  const isDesktopOrLaptop = useMediaQuery({query: '(min-width: 1224px)'})
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
 
   useEffect(() => {
-    getData()
-  }, [selectedTable, chartNameField, indicator, chartType])
+    getData();
+  }, [selectedTable, chartNameField, indicator, chartType]);
 
   const getData = async () => {
-    const token = await getTokenSilently()
+    const token = await getTokenSilently();
 
     let res = await axios
-      .get('/admin/api/selectedtable', {
+      .get("/admin/api/selectedtable", {
         params: {
           tableName: selectedTable,
         },
@@ -51,29 +59,29 @@ const ChartPreview = ({indicator, chartNameField, chartType, tableColumns}) => {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then(res => {
-        setResponseData(res.data)
+      .then((res) => {
+        setResponseData(res.data);
 
-        let chart = res.data.map(val => {
+        let chart = res.data.map((val) => {
           return {
             name: val[chartNameField],
             [indicator]: val[indicator],
             year: val.Metai,
-          }
-        })
+          };
+        });
 
-        setCustomTooltipData(res.data.map(val => val.Metai))
+        setCustomTooltipData(res.data.map((val) => val.Metai));
 
-        setDataMax(Math.max(...res.data.map(val => val[indicator])) + 100)
+        setDataMax(Math.max(...res.data.map((val) => val[indicator])) + 100);
 
-        setChartData(chart)
+        setChartData(chart);
       })
-      .catch(err => console.log(err))
-  }
+      .catch((err) => console.log(err));
+  };
 
   return (
-    <div>
-      {chartType === 'barChart' ? (
+    <Col span={16}>
+      {chartType === "barChart" ? (
         <ResponsiveContainer width="95%" height={1800}>
           <BarChart
             width={850}
@@ -97,8 +105,8 @@ const ChartPreview = ({indicator, chartNameField, chartType, tableColumns}) => {
           </BarChart>
         </ResponsiveContainer>
       ) : null}
-    </div>
-  )
-}
+    </Col>
+  );
+};
 
-export default ChartPreview
+export default ChartPreview;

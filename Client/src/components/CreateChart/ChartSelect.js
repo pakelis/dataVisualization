@@ -1,51 +1,51 @@
-import React, {useState, useEffect} from 'react'
-import {useSelectedTableValue} from '../../context'
+import React, { useState, useEffect } from "react";
+import { useSelectedTableValue } from "../../context";
 
 //ant
-import {List, Card, Typography} from 'antd'
-import {BarChartOutlined, PieChartOutlined} from '@ant-design/icons'
+import { List, Card, Typography } from "antd";
+import { BarChartOutlined, PieChartOutlined } from "@ant-design/icons";
 
-const {Text} = Typography
+const { Text } = Typography;
 
-const {Meta} = Card
+const { Meta } = Card;
 
 const data = [
   {
-    title: 'Bar Chart',
+    title: "Bar Chart",
     icon: (
       <BarChartOutlined
         rotate={-90}
         className="chart-icon"
-        style={{transform: 'scaleX(-1)'}}
+        style={{ transform: "scaleX(-1)" }}
         //Flipping image with transform: "scaleX(-1)"
       />
     ),
-    cardName: 'barChart',
+    cardName: "barChart",
   },
   {
-    title: 'Column Chart',
+    title: "Column Chart",
     icon: <BarChartOutlined className="chart-icon" />,
-    cardName: 'columnChart',
+    cardName: "columnChart",
   },
   {
-    title: 'Pie Chart',
+    title: "Pie Chart",
     icon: <PieChartOutlined className="chart-icon" />,
-    cardName: 'pieChart',
+    cardName: "pieChart",
   },
-]
+];
 
-const ChartSelect = ({handleChartType, chartType}) => {
-  const {selectedTable, setSelectedTable} = useSelectedTableValue()
+const ChartSelect = ({ handleChartType, chartType }) => {
+  const { selectedTable, setSelectedTable } = useSelectedTableValue();
 
   useEffect(() => {
     //we set SelectedTable to null when component unmounts
-    return () => setSelectedTable(null)
-  }, [])
+    return () => setSelectedTable(null);
+  }, []);
 
   return (
     <>
       {selectedTable != null ? (
-        <div className="select-wrapper">
+        <div className="chart-wrapper">
           <div className="text-wrapper">
             <Text strong className="section__text">
               Select chart
@@ -68,9 +68,9 @@ const ChartSelect = ({handleChartType, chartType}) => {
                   hoverable
                   cover={item.icon}
                   onClick={() => handleChartType(item.cardName)}
-                  className={chartType === item.cardName ? 'cardActive' : null}
+                  className={chartType === item.cardName ? "cardActive" : null}
                 >
-                  <Meta title={item.title} style={{textAlign: 'center'}} />
+                  <Meta title={item.title} style={{ textAlign: "center" }} />
                 </Card>
               </List.Item>
             )}
@@ -78,7 +78,7 @@ const ChartSelect = ({handleChartType, chartType}) => {
         </div>
       ) : null}
     </>
-  )
-}
+  );
+};
 
-export default ChartSelect
+export default ChartSelect;

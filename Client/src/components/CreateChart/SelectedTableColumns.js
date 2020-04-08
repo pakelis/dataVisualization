@@ -1,15 +1,15 @@
-import React, {useState, useEffect} from 'react'
-import {useAuth0} from '../../react-auth0-spa'
-import {useSelectedTableValue} from '../../context'
+import React, { useState, useEffect } from "react";
+import { useAuth0 } from "../../react-auth0-spa";
+import { useSelectedTableValue } from "../../context";
 
 //libs
-import axios from 'axios'
+import axios from "axios";
 
 //antd
-import {List, Typography} from 'antd'
-import IndicatorSelect from './IndicatorSelect'
+import { List, Typography } from "antd";
+import IndicatorSelect from "./IndicatorSelect";
 
-const {Text} = Typography
+const { Text } = Typography;
 
 const SelectedTableColumns = ({
   setIndicator,
@@ -21,16 +21,16 @@ const SelectedTableColumns = ({
   handlePreview,
   handleNames,
 }) => {
-  const [data, setData] = useState()
-  const [selectedTableColumns, setSelectedTableColumns] = useState()
-  const {getTokenSilently} = useAuth0()
-  const {selectedTable} = useSelectedTableValue()
+  const [data, setData] = useState();
+  const [selectedTableColumns, setSelectedTableColumns] = useState();
+  const { getTokenSilently } = useAuth0();
+  const { selectedTable } = useSelectedTableValue();
 
   const getTableColums = async () => {
-    const token = await getTokenSilently()
+    const token = await getTokenSilently();
 
     let res = axios
-      .get('/admin/api/tablecolumns', {
+      .get("/admin/api/tablecolumns", {
         params: {
           tableName: selectedTable,
         },
@@ -39,18 +39,18 @@ const SelectedTableColumns = ({
         },
       })
       .then((res) => {
-        let columnNames = res.data.map((row) => row.column_name)
-        handleNames(columnNames)
-        setData(res.data)
+        let columnNames = res.data.map((row) => row.column_name);
+        handleNames(columnNames);
+        setData(res.data);
       })
-      .catch((err) => console.log(err))
-  }
+      .catch((err) => console.log(err));
+  };
 
   useEffect(() => {
     if (selectedTable != null) {
-      getTableColums()
+      getTableColums();
     }
-  }, [selectedTable])
+  }, [selectedTable]);
 
   return (
     <>
@@ -62,27 +62,29 @@ const SelectedTableColumns = ({
         renderItem={item => <List.Item>{item.column_name}</List.Item>}
         locale={{emptyText: "You haven't selected any table yet"}}
       ></List> */}
-      {data && (
-        <div className="select-wrapper">
+      {chartType && (
+        <div className="select-section">
           <div className="text-wrapper">
             <Text strong className="section__text">
               Map your dimensions
             </Text>
           </div>
-          <IndicatorSelect
-            columns={data}
-            setIndicator={setIndicator}
-            indicator={indicator}
-            chartNameField={chartNameField}
-            setChartNameField={setChartNameField}
-            setChartType={setChartType}
-            chartType={chartType}
-            handlePreview={handlePreview}
-          />
+          <div className="select-wrapper">
+            <IndicatorSelect
+              columns={data}
+              setIndicator={setIndicator}
+              indicator={indicator}
+              chartNameField={chartNameField}
+              setChartNameField={setChartNameField}
+              setChartType={setChartType}
+              chartType={chartType}
+              handlePreview={handlePreview}
+            />
+          </div>
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default SelectedTableColumns
+export default SelectedTableColumns;

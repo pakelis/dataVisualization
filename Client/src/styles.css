@@ -107,7 +107,7 @@ html {
 #load-tables {
   display: flex;
   justify-content: center;
-  padding: 40px 0;
+  padding-bottom: 40px;
 }
 
 .list-wrapper {
@@ -120,7 +120,7 @@ html {
 .section__text {
   font-size: 16px;
   text-align: center;
-  padding-bottom: 12px;
+  padding-bottom: 24px;
 }
 
 .text-wrapper {
@@ -145,4 +145,26 @@ html {
   /* background: #1da57a; */
   /* background: rgb(29, 165, 122, 0.4); */
   background: rgb(29, 165, 122, 0.8);
+}
+
+.select-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#dimension-select {
+  padding: 40px 0;
+}
+
+.select-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 85%;
+  flex-wrap: wrap;
+}
+
+#chart-customization {
+  padding: 40px 0;
 }
