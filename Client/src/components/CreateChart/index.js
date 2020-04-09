@@ -9,6 +9,7 @@ import ChartCustomization from "./ChartCustomization";
 
 //ant d
 import { Row } from "antd";
+import ChartView from "./ChartView";
 
 const CreateChart = () => {
   const [indicator, setIndicator] = useState();
@@ -49,21 +50,18 @@ const CreateChart = () => {
           handlePreview={handlePreview}
           handleNames={handleNames}
         />
-        <section id="chart-customization">
-          {showChart && (
-            <div className="customization-container">
-              <Row>
-                <ChartCustomization />
-                <ChartPreview
-                  indicator={indicator}
-                  chartNameField={chartNameField}
-                  chartType={chartType}
-                  tableColumns={tableNames}
-                />
-              </Row>
-            </div>
-          )}
-        </section>
+      </section>
+      <section id="chart-customization">
+        {showChart && (
+          <div className="customization-container">
+            <ChartView
+              indicator={indicator}
+              chartNameField={chartNameField}
+              chartType={chartType}
+              tableColumns={tableNames}
+            />
+          </div>
+        )}
       </section>
     </div>
   );

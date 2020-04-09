@@ -1,14 +1,11 @@
 import React, { useState } from "react";
+import { useMediaQuery } from "react-responsive";
 
 //ant d
-
-import { Select, Button } from "antd";
+import { Select, Button, Radio, Typography } from "antd";
 
 const { Option } = Select;
-
-function handleChange(value, placeholder) {
-  console.log(`selected ${value}`);
-}
+const { Text } = Typography;
 
 const IndicatorSelect = (props) => {
   const {
@@ -21,7 +18,9 @@ const IndicatorSelect = (props) => {
     chartType,
     handlePreview,
   } = props;
-  // console.log(columns);
+
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
 
   //what palceholder we should render on different chart types
   const placeholder = (whichSelect) => {
@@ -43,34 +42,82 @@ const IndicatorSelect = (props) => {
 
   return (
     <>
-      <Select
-        placeholder={placeholder(1)}
-        onChange={(value) => setIndicator(value)}
-        style={{ width: 200 }}
-      >
-        {columns.map((row, i) =>
-          row.data_type != "character varying" ? (
-            <Option value={row.column_name} key={i}>
-              {row.column_name}
-            </Option>
-          ) : null
-        )}
-      </Select>
-      <Select
-        placeholder={placeholder(2)}
-        onChange={(value) => setChartNameField(value)}
-        style={{ width: 150 }}
-      >
-        {columns.map((row, i) =>
-          row.data_type === "character varying" ? (
-            <Option value={row.column_name} key={i}>
-              {row.column_name}
-            </Option>
-          ) : null
-        )}
-      </Select>
-      {indicator && chartNameField && chartType && (
-        <Button onClick={handlePreview}>Chart preview</Button>
+      {/* for tablet or mobile we make basic select && for desktop we make radio button select */}
+      {isTabletOrMobile ? (
+        <>
+          <Select
+            placeholder={placeholder(1)}
+            onChange={(value) => setIndicator(value)}
+            style={{ width: 200 }}
+          >
+            {columns.map((row, i) =>
+              // we check if our column data type is numeric or char
+              row.data_type != "character varying" ? (
+                <Option value={row.column_name} key={i}>
+                  {row.column_name}
+                </Option>
+              ) : null
+            )}
+          </Select>
+          <Select
+            placeholder={placeholder(2)}
+            onChange={(value) => setChartNameField(value)}
+            style={{ width: 150 }}
+          >
+            {columns.map((row, i) =>
+              row.data_type === "character varying" ? (
+                <Option value={row.column_name} key={i}>
+                  {row.column_name}
+                </Option>
+              ) : null
+            )}
+          </Select>
+          {indicator && chartNameField && chartType && (
+            <Button onClick={handlePreview}>Chart preview</Button>
+          )}
+        </>
+      ) : (
+        <div className="selectRadio-wrapper">
+          <div className="selectRadio-selectors">
+            <Text type="secondary" style={{ padding: "10px" }}>
+              Select {placeholder(1)} :
+            </Text>
+            <Radio.Group buttonStyle="solid" className="selectRadio-group">
+              {columns.map((row, i) =>
+                row.data_type != "character varying" ? (
+                  <Radio.Button
+                    value={row.column_name}
+                    key={i}
+                    onChange={(value) => setIndicator(value)}
+                  >
+                    {row.column_name}
+                  </Radio.Button>
+                ) : null
+              )}
+            </Radio.Group>
+          </div>
+          <div className="selectRadio-selectors">
+            <Text type="secondary" style={{ padding: "10px" }}>
+              Select {placeholder(2)} :
+            </Text>
+            <Radio.Group buttonStyle="solid" className="selectRadio-group">
+              {columns.map((row, i) =>
+                row.data_type === "character varying" ? (
+                  <Radio.Button
+                    value={row.column_name}
+                    key={i}
+                    onChange={(value) => setChartNameField(value)}
+                  >
+                    {row.column_name}
+                  </Radio.Button>
+                ) : null
+              )}
+            </Radio.Group>
+          </div>
+          {indicator && chartNameField && chartType && (
+            <Button onClick={handlePreview}>Chart preview</Button>
+          )}
+        </div>
       )}
     </>
   );
