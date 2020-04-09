@@ -1,35 +1,35 @@
-import React, { useState, useEffect } from "react";
-import SelectedTable from "./SelectedTable";
-import SelectedTableColumns from "./SelectedTableColumns";
-import { useAuth0 } from "../../react-auth0-spa";
-import axios from "axios";
-import ChartPreview from "./ChartPreview";
-import ChartSelect from "./ChartSelect";
-import ChartCustomization from "./ChartCustomization";
+import React, {useState, useEffect} from 'react'
+import SelectedTable from './SelectedTable'
+import SelectedTableColumns from './SelectedTableColumns'
+import {useAuth0} from '../../react-auth0-spa'
+import axios from 'axios'
+import ChartPreview from './ChartPreview'
+import ChartSelect from './ChartSelect'
+import ChartCustomization from './ChartCustomization'
 
 //ant d
-import { Row } from "antd";
-import ChartView from "./ChartView";
+import {Row} from 'antd'
+import ChartView from './ChartView'
 
 const CreateChart = () => {
-  const [indicator, setIndicator] = useState();
-  const [chartType, setChartType] = useState();
-  const [chartNameField, setChartNameField] = useState();
-  const [showChart, setShowChart] = useState(false);
-  const [tableNames, setTableNames] = useState();
-  const [selectedChart, setSelectedChart] = useState();
+  const [indicator, setIndicator] = useState()
+  const [chartType, setChartType] = useState()
+  const [chartNameField, setChartNameField] = useState()
+  const [showChart, setShowChart] = useState(false)
+  const [tableNames, setTableNames] = useState()
+  const [selectedChart, setSelectedChart] = useState()
 
   const handleNames = (names) => {
-    setTableNames(names);
-  };
+    setTableNames(names)
+  }
 
   const handlePreview = () => {
-    setShowChart(true);
-  };
+    setShowChart(true)
+  }
 
   const handleChartType = (name) => {
-    setChartType(name);
-  };
+    setChartType(name)
+  }
 
   return (
     <div className="section-wrapper">
@@ -52,7 +52,7 @@ const CreateChart = () => {
         />
       </section>
       <section id="chart-customization">
-        {showChart && (
+        {indicator && chartNameField && (
           <div className="customization-container">
             <ChartView
               indicator={indicator}
@@ -64,7 +64,7 @@ const CreateChart = () => {
         )}
       </section>
     </div>
-  );
-};
+  )
+}
 
-export default CreateChart;
+export default CreateChart

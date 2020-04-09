@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { useMediaQuery } from "react-responsive";
+import React, {useState} from 'react'
+import {useMediaQuery} from 'react-responsive'
 
 //ant d
-import { Select, Button, Radio, Typography } from "antd";
+import {Select, Button, Radio, Typography} from 'antd'
 
-const { Option } = Select;
-const { Text } = Typography;
+const {Option} = Select
+const {Text} = Typography
 
 const IndicatorSelect = (props) => {
   const {
@@ -17,110 +17,104 @@ const IndicatorSelect = (props) => {
     setChartNameField,
     chartType,
     handlePreview,
-  } = props;
+  } = props
 
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
-  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
+  const isTabletOrMobile = useMediaQuery({query: '(max-width: 1224px)'})
+  const isDesktopOrLaptop = useMediaQuery({query: '(min-width: 1224px)'})
 
   //what palceholder we should render on different chart types
   const placeholder = (whichSelect) => {
-    let placeholder = {};
-    if (chartType === "barChart") {
-      placeholder.firstSelect = "Y Axis";
-      placeholder.secondSelect = "X Axis";
-    } else if (chartType === "columnChart") {
-      placeholder.firstSelect = "X Axis";
-      placeholder.secondSelect = "Y Axis";
-    } else if (chartType === "pieChart") {
-      placeholder.firstSelect = "Arcs";
-      placeholder.secondSelect = "Label";
+    let placeholder = {}
+    if (chartType === 'barChart') {
+      placeholder.firstSelect = 'Y Axis'
+      placeholder.secondSelect = 'X Axis'
+    } else if (chartType === 'columnChart') {
+      placeholder.firstSelect = 'X Axis'
+      placeholder.secondSelect = 'Y Axis'
+    } else if (chartType === 'pieChart') {
+      placeholder.firstSelect = 'Arcs'
+      placeholder.secondSelect = 'Label'
     }
     return whichSelect === 1
       ? placeholder.firstSelect
-      : placeholder.secondSelect;
-  };
+      : placeholder.secondSelect
+  }
 
   return (
     <>
       {/* for tablet or mobile we make basic select && for desktop we make radio button select */}
       {isTabletOrMobile ? (
-        <>
+        <div className="selectInput">
           <Select
             placeholder={placeholder(1)}
             onChange={(value) => setIndicator(value)}
-            style={{ width: 200 }}
+            style={{width: 200}}
           >
             {columns.map((row, i) =>
               // we check if our column data type is numeric or char
-              row.data_type != "character varying" ? (
+              row.data_type != 'character varying' ? (
                 <Option value={row.column_name} key={i}>
                   {row.column_name}
                 </Option>
-              ) : null
+              ) : null,
             )}
           </Select>
           <Select
             placeholder={placeholder(2)}
             onChange={(value) => setChartNameField(value)}
-            style={{ width: 150 }}
+            style={{width: 150}}
           >
             {columns.map((row, i) =>
-              row.data_type === "character varying" ? (
+              row.data_type === 'character varying' ? (
                 <Option value={row.column_name} key={i}>
                   {row.column_name}
                 </Option>
-              ) : null
+              ) : null,
             )}
           </Select>
-          {indicator && chartNameField && chartType && (
-            <Button onClick={handlePreview}>Chart preview</Button>
-          )}
-        </>
+        </div>
       ) : (
         <div className="selectRadio-wrapper">
           <div className="selectRadio-selectors">
-            <Text type="secondary" style={{ padding: "10px" }}>
+            <Text type="secondary" style={{padding: '10px'}}>
               Select {placeholder(1)} :
             </Text>
             <Radio.Group buttonStyle="solid" className="selectRadio-group">
               {columns.map((row, i) =>
-                row.data_type != "character varying" ? (
+                row.data_type != 'character varying' ? (
                   <Radio.Button
                     value={row.column_name}
                     key={i}
-                    onChange={(value) => setIndicator(value)}
+                    onChange={(e) => setIndicator(e.target.value)}
                   >
                     {row.column_name}
                   </Radio.Button>
-                ) : null
+                ) : null,
               )}
             </Radio.Group>
           </div>
           <div className="selectRadio-selectors">
-            <Text type="secondary" style={{ padding: "10px" }}>
+            <Text type="secondary" style={{padding: '10px'}}>
               Select {placeholder(2)} :
             </Text>
             <Radio.Group buttonStyle="solid" className="selectRadio-group">
               {columns.map((row, i) =>
-                row.data_type === "character varying" ? (
+                row.data_type === 'character varying' ? (
                   <Radio.Button
                     value={row.column_name}
                     key={i}
-                    onChange={(value) => setChartNameField(value)}
+                    onChange={(e) => setChartNameField(e.target.value)}
                   >
                     {row.column_name}
                   </Radio.Button>
-                ) : null
+                ) : null,
               )}
             </Radio.Group>
           </div>
-          {indicator && chartNameField && chartType && (
-            <Button onClick={handlePreview}>Chart preview</Button>
-          )}
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
-export default IndicatorSelect;
+export default IndicatorSelect
