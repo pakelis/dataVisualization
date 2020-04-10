@@ -20,6 +20,8 @@ const Barchart = ({ dataMax, chartData, customTooltipData }) => {
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
 
+  console.log(chartData);
+
   return (
     <ResponsiveContainer width="95%" height={1800}>
       <BarChart width={850} height={1800} data={chartData} layout="vertical">

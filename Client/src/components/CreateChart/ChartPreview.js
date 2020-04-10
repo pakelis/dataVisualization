@@ -4,6 +4,9 @@ import Barchart from "./Diagrams/Barchart";
 import Columnchart from "./Diagrams/Columnchart";
 import Piechart from "./Diagrams/Piechart";
 
+//moment
+import moment from "moment";
+
 //ant-d
 import { Col, Row } from "antd";
 
@@ -34,7 +37,11 @@ const ChartPreview = ({
 
   useEffect(() => {
     getData();
-  }, [selectedTable, chartNameField, indicator, chartType]);
+  }, [indicator, chartNameField]);
+
+  /* useEffect(() => {
+    getData();
+  }, [selectedTable, chartNameField, indicator, chartType]); */
 
   const getData = async () => {
     const token = await getTokenSilently();
@@ -67,6 +74,28 @@ const ChartPreview = ({
       })
       .catch((err) => console.log(err));
   };
+
+  console.log(responseData);
+  console.log(
+    responseData != null
+      ? moment(responseData[0].date, moment.ISO_8601, true).isValid()
+      : null
+  );
+
+  const checkDateColumn = () => {
+    if (responseData != null) {
+      responseData.map((row, index) => {
+        for (let i = 0; i < tableColumns.length; i++) {
+          // console.log(row[tableColumns[i]]); // each object value
+          if (moment(row[tableColumns[i]], moment.ISO_8601, true).isValid()) {
+            return moment(row[tableColumns[i]].format("MM/DD/YYYY"));
+          }
+        }
+      });
+    }
+  };
+
+  checkDateColumn();
 
   return (
     <Col span={16}>

@@ -1,25 +1,25 @@
-const promise = require('bluebird')
-const monitor = require('pg-monitor')
+const promise = require("bluebird");
+const monitor = require("pg-monitor");
 
 const initOptions = {
   promiseLib: promise,
-}
+};
 
-const pgp = require('pg-promise')(initOptions, {
+const pgp = require("pg-promise")(initOptions, {
   capSQL: true,
-})
+});
 
-monitor.attach(initOptions)
+monitor.attach(initOptions);
 
 const cn = {
-  user: 'postgres',
-  host: 'localhost',
-  database: 'data_visualization',
-  password: 'root',
-  port: '5432',
-}
+  user: "postgres",
+  host: "localhost",
+  database: "data_visualization",
+  password: "root",
+  port: "5432",
+};
 
-const db = pgp(cn)
+const db = pgp(cn);
 
 /* db.any(`SELECT * FROM renginiu_finansavimas WHERE id = $1`, [2])
   .then(data => {
@@ -33,7 +33,7 @@ const db = pgp(cn)
   TESTING pg-promise
   */
 
-module.exports = db
+module.exports = db;
 
 /* const { Pool } = require("pg");
 

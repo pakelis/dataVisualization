@@ -20,7 +20,7 @@ const Piechart = ({ chartData }) => {
           cx="50%"
           cy="50%"
           outerRadius={80}
-          fill="#8884d8"
+          fill="#1DA57A"
           isAnimationActive={false}
         />
         <Legend />

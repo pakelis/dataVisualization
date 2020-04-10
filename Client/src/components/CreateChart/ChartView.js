@@ -1,30 +1,34 @@
-import React from 'react'
-import ChartCustomization from './ChartCustomization'
-import ChartPreview from './ChartPreview'
+import React from "react";
+import ChartCustomization from "./ChartCustomization";
+import ChartPreview from "./ChartPreview";
 
 //ant-d
-import {Typography, Row} from 'antd'
-const {Text} = Typography
+import { Typography, Row } from "antd";
+const { Text } = Typography;
 
-const ChartView = ({indicator, chartNameField, chartType, tableColumns}) => {
-  console.log(indicator)
+const ChartView = ({ indicator, chartNameField, chartType, tableColumns }) => {
+  console.log(tableColumns.includes(indicator && chartNameField));
 
   return (
     <>
-      <div className="section__text">
-        <Text strong>Customize your Visualization</Text>
-      </div>
-      <Row>
-        <ChartCustomization />
-        <ChartPreview
-          indicator={indicator}
-          chartNameField={chartNameField}
-          chartType={chartType}
-          tableColumns={tableColumns}
-        />
-      </Row>
+      {tableColumns.includes(indicator && chartNameField) ? (
+        <>
+          <div className="section__text">
+            <Text strong>Customize your Visualization</Text>
+          </div>
+          <Row>
+            <ChartCustomization />
+            <ChartPreview
+              indicator={indicator}
+              chartNameField={chartNameField}
+              chartType={chartType}
+              tableColumns={tableColumns}
+            />
+          </Row>
+        </>
+      ) : null}
     </>
-  )
-}
+  );
+};
 
-export default ChartView
+export default ChartView;

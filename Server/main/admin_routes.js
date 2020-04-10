@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 var db = require("./db");
 const pgp = require("pg-promise")({
-  capSQL: true
+  capSQL: true,
 });
 var cleanUpSpecialChars = require("./functions");
 var capitalizeFirstLetter = require("./functions");
@@ -16,13 +16,13 @@ var capitalizeFirstLetter = require("./functions");
 //Private route
 router.get("/api/external", (req, res) => {
   res.send({
-    msg: "Your Acces Token was succesfully validated"
+    msg: "Your Acces Token was succesfully validated",
   });
 });
 
 router.get("/api/externalhello", (req, res) => {
   res.send({
-    msg: "Hello external world"
+    msg: "Hello external world",
   });
 });
 
@@ -34,7 +34,9 @@ router.post("/api/upload", (req, res) => {
 
   const rows = req.body.rows;
   let fields = req.body.fields;
-  fields = fields.map(string => cleanUpSpecialChars(string));
+  fields = fields.map(
+    (string) => cleanUpSpecialChars(string) && string.toLowerCase()
+  );
   let tableName = cleanUpSpecialChars(req.body.tableName);
   tableName = capitalizeFirstLetter(tableName);
 
@@ -46,10 +48,11 @@ router.post("/api/upload", (req, res) => {
     const types = Array.from(Array(sizeOfArray), () => Array(0)); // we create empty two dimensional array depending on fields length
     // console.log(sizeOfArray, types);
 
-    rows.map(row => {
+    rows.map((row) => {
       let index = 0;
       for (let [key, value] of Object.entries(row)) {
         //we loop through all rows, and check their property values
+        console.log(key, fields[index]);
         if (key === fields[index]) {
           let newValue = () => {
             if (typeof value === "string") {
@@ -84,9 +87,9 @@ router.post("/api/upload", (req, res) => {
       }*/
 
       for (let i = 0; i < fields.length; i++) {
-        types[i].every(val => val === "number")
+        types[i].every((val) => val === "number")
           ? columnTypes.push("NUMERIC")
-          : types[i].every(val => val === "date")
+          : types[i].every((val) => val === "date")
           ? columnTypes.push("DATE")
           : columnTypes.push("VARCHAR(255)");
       }
@@ -104,10 +107,10 @@ router.post("/api/upload", (req, res) => {
   console.log(fieldTypes);
   console.log(tableName);
 
-  db.task("create-insert-csv", async t => {
+  db.task("create-insert-csv", async (t) => {
     //First we create empty table
     const testQuery = await t.none(`create table if not exists $1:name()`, [
-      tableName
+      tableName,
     ]);
     //Here we add columns depending on response data
     const insertColumns = await fields.map((l, index) => {
@@ -118,16 +121,16 @@ router.post("/api/upload", (req, res) => {
     });
     await db.none(query);
   })
-    .then(events => {
+    .then((events) => {
       console.log("table created!", events);
       res.send({
-        success: "Data successfully submited to DB!"
+        success: "Data successfully submited to DB!",
       });
     })
-    .catch(err => {
+    .catch((err) => {
       console.log("something wrong!", err);
       res.send({
-        error: "Something went wrong!"
+        error: "Something went wrong!",
       });
     });
 });
@@ -139,10 +142,10 @@ router.get("/api/tablenames", (req, res) => {
         schemaname != 'pg_catalog' and schemaname != 'information_schema' 
       `
   )
-    .then(data => {
+    .then((data) => {
       res.send(data);
     })
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 });
 
 router.get("/api/tablecolumns", (req, res) => {
@@ -153,8 +156,8 @@ router.get("/api/tablecolumns", (req, res) => {
     `select column_name, data_type from information_schema.columns where table_name = '$1:value'`,
     [tableName]
   )
-    .then(data => res.send(data))
-    .catch(err => console.log(err));
+    .then((data) => res.send(data))
+    .catch((err) => console.log(err));
 });
 
 router.get("/api/selectedtable", (req, res) => {
@@ -162,8 +165,8 @@ router.get("/api/selectedtable", (req, res) => {
   console.log(tableName);
 
   db.any(`select * from $1:name`, [tableName])
-    .then(data => res.send(data))
-    .catch(err => console.log(err));
+    .then((data) => res.send(data))
+    .catch((err) => console.log(err));
 });
 
 module.exports = router;
