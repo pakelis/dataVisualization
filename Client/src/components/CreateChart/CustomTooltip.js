@@ -3,7 +3,7 @@ import React from 'react'
 // but it's located in the package lib so you can get to it anyways
 import DefaultTooltipContent from 'recharts/lib/component/DefaultTooltipContent'
 
-const CustomTooltip = props => {
+const CustomTooltip = (props) => {
   // we don't need to check payload[0] as there's a better prop for this purpose
   if (!props.active) {
     // I think returning null works based on this: http://recharts.org/en-US/examples/CustomContentOfTooltip
@@ -23,6 +23,7 @@ const CustomTooltip = props => {
   ]
 
   // we render the default, but with our overridden payload
+  // return <DefaultTooltipContent {...props} payload={newPayload} />
   return <DefaultTooltipContent {...props} payload={newPayload} />
 }
 
