@@ -6,7 +6,7 @@ import { useMediaQuery } from "react-responsive";
 //recharts
 import { Tooltip, Legend, ResponsiveContainer, PieChart, Pie } from "recharts";
 
-const Piechart = ({ chartData }) => {
+const Piechart = ({ chartData, indicator, chartNameField }) => {
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
 
@@ -15,7 +15,7 @@ const Piechart = ({ chartData }) => {
       <PieChart width={400} height={400}>
         <Pie
           data={chartData}
-          dataKey="value"
+          dataKey={indicator}
           nameKey="name"
           cx="50%"
           cy="50%"

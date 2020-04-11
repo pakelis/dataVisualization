@@ -16,11 +16,15 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const Barchart = ({ dataMax, chartData, customTooltipData }) => {
+const Barchart = ({
+  dataMax,
+  chartData,
+  customTooltipData,
+  indicator,
+  chartNameField,
+}) => {
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
-
-  console.log(chartData);
 
   return (
     <ResponsiveContainer width="95%" height={1800}>
@@ -34,10 +38,11 @@ const Barchart = ({ dataMax, chartData, customTooltipData }) => {
           interval={0}
         />
         {/* interval on axis shows all categories */}
-        <Tooltip content={<CustomTooltip payload={customTooltipData} />} />
+        {/* <Tooltip content={<CustomTooltip payload={customTooltipData} />} /> */}
+        <Tooltip />
         {/* <CustomTooltip /> */}
         <Legend />
-        <Bar dataKey="value" fill="#1DA57A" isAnimationActive={false} />
+        <Bar dataKey={indicator} fill="#1DA57A" isAnimationActive={false} />
       </BarChart>
     </ResponsiveContainer>
   );

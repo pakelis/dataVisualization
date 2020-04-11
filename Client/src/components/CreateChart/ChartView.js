@@ -7,8 +7,6 @@ import { Typography, Row } from "antd";
 const { Text } = Typography;
 
 const ChartView = ({ indicator, chartNameField, chartType, tableColumns }) => {
-  console.log(tableColumns.includes(indicator && chartNameField));
-
   return (
     <>
       {tableColumns.includes(indicator && chartNameField) ? (

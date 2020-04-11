@@ -16,7 +16,13 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const Columnchart = ({ dataMax, chartData, customTooltipData }) => {
+const Columnchart = ({
+  dataMax,
+  chartData,
+  customTooltipData,
+  indicator,
+  chartNameField,
+}) => {
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
 
@@ -33,10 +39,11 @@ const Columnchart = ({ dataMax, chartData, customTooltipData }) => {
         />
         <YAxis domain={[0, dataMax]} />
         {/* interval on axis shows all categories */}
-        <Tooltip content={<CustomTooltip payload={customTooltipData} />} />
+        {/* <Tooltip content={<CustomTooltip payload={customTooltipData} />} /> */}
+        <Tooltip />
         {/* <CustomTooltip /> */}
         <Legend />
-        <Bar dataKey="value" fill="#1DA57A" isAnimationActive={false} />
+        <Bar dataKey={indicator} fill="#1DA57A" isAnimationActive={false} />
       </BarChart>
     </ResponsiveContainer>
   );
