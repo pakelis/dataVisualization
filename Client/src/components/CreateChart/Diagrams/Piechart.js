@@ -1,16 +1,25 @@
-import React from 'react'
+import React from "react";
 
 //react-responsive
-import {useMediaQuery} from 'react-responsive'
+import { useMediaQuery } from "react-responsive";
 
 //recharts
-import {Tooltip, Legend, ResponsiveContainer, PieChart, Pie} from 'recharts'
+import {
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
 
-const Piechart = ({chartData, indicator, chartNameField}) => {
-  const isTabletOrMobile = useMediaQuery({query: '(max-width: 1224px)'})
-  const isDesktopOrLaptop = useMediaQuery({query: '(min-width: 1224px)'})
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
-  console.log(chartData)
+const Piechart = ({ chartData, indicator, chartNameField }) => {
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
+
+  console.log(chartData);
 
   return (
     <>
@@ -24,14 +33,20 @@ const Piechart = ({chartData, indicator, chartNameField}) => {
               outerRadius={80}
               fill="#1DA57A"
               isAnimationActive={false}
-            />
+            >
+              {chartData != null
+                ? chartData.map((entry, index) => (
+                    <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                  ))
+                : null}
+            </Pie>
             <Tooltip />
-            {/* <Legend /> */}
+            <Legend />
           </PieChart>
         </div>
       ) : null}
     </>
-  )
-}
+  );
+};
 
-export default Piechart
+export default Piechart;
