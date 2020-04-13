@@ -26,6 +26,8 @@ const Columnchart = ({
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
 
+  console.log(indicator);
+
   return (
     <ResponsiveContainer width="95%" height={850}>
       <BarChart width={1850} height={850} data={chartData}>

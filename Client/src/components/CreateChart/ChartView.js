@@ -6,10 +6,21 @@ import ChartPreview from "./ChartPreview";
 import { Typography, Row } from "antd";
 const { Text } = Typography;
 
-const ChartView = ({ indicator, chartNameField, chartType, tableColumns }) => {
+const ChartView = ({
+  multiIndicator,
+  indicator,
+  chartNameField,
+  chartType,
+  tableColumns,
+}) => {
+  console.log(indicator, multiIndicator);
+
   return (
     <>
-      {tableColumns.includes(indicator && chartNameField) ? (
+      {tableColumns.includes(
+        // if indicator and name field selected or multiindicator with name field
+        (indicator && chartNameField) || (multiIndicator && chartNameField)
+      ) ? (
         <>
           <div className="section__text">
             <Text strong>Customize your Visualization</Text>
@@ -17,6 +28,7 @@ const ChartView = ({ indicator, chartNameField, chartType, tableColumns }) => {
           <Row>
             <ChartCustomization />
             <ChartPreview
+              multiIndicator={multiIndicator}
               indicator={indicator}
               chartNameField={chartNameField}
               chartType={chartType}
@@ -24,7 +36,9 @@ const ChartView = ({ indicator, chartNameField, chartType, tableColumns }) => {
             />
           </Row>
         </>
-      ) : null}
+      ) : (
+        console.log("DOESNT INCLUDE")
+      )}
     </>
   );
 };

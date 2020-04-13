@@ -15,15 +15,15 @@ import {
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
-const Piechart = ({ chartData, indicator, chartNameField }) => {
+const Piechart = ({ multiIndicator, chartData, indicator, chartNameField }) => {
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
 
-  console.log(chartData);
+  console.log(multiIndicator);
 
   return (
     <>
-      {indicator.length != 0 ? (
+      {multiIndicator.length != 0 ? (
         <div>
           <PieChart width={250} height={250}>
             <Pie

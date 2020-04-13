@@ -20,12 +20,9 @@ const IndicatorSelect = (props) => {
     setChartNameField,
     chartType,
     handlePreview,
+    multiIndicator,
+    setMultiIndicator,
   } = props;
-
-  useEffect(() => {
-    setIndicator(null);
-    setChartNameField(null);
-  }, [chartType]);
 
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
@@ -43,6 +40,7 @@ const IndicatorSelect = (props) => {
   });
 
   console.log(indicator);
+  console.log(multiIndicator);
 
   const handleTagCheck = (index, value) => {
     // console.log(tagCheck);
@@ -51,7 +49,7 @@ const IndicatorSelect = (props) => {
 
   useEffect(() => {
     if (chartType === "pieChart") {
-      setIndicator(() => {
+      setMultiIndicator(() => {
         console.log(tagCheck);
         let arr = [];
         columns.map((row, i) => {
@@ -69,7 +67,7 @@ const IndicatorSelect = (props) => {
         return checked;
       });
     }
-  }, [tagCheck]);
+  }, [tagCheck, chartType]);
 
   //what palceholder we should render on different chart types
   const placeholder = (whichSelect) => {

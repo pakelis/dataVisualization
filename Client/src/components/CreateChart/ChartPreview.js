@@ -26,6 +26,7 @@ const ChartPreview = ({
   chartNameField,
   chartType,
   tableColumns,
+  multiIndicator,
 }) => {
   const { selectedTable } = useSelectedTableValue();
   const { getTokenSilently } = useAuth0();
@@ -39,7 +40,9 @@ const ChartPreview = ({
 
   useEffect(() => {
     getData();
-  }, [indicator, chartNameField]);
+  }, [indicator, chartNameField, multiIndicator]);
+
+  //TODO
 
   /* useEffect(() => {
     getData();
@@ -71,7 +74,7 @@ const ChartPreview = ({
               year: val.Metai,
             };
           } else {
-            let arr = indicator.map((indVal, index) => {
+            let arr = multiIndicator.map((indVal, index) => {
               return {
                 name: indVal,
                 value: parseInt(val[indVal]),
@@ -143,6 +146,7 @@ const ChartPreview = ({
             //we pass only one object of array
             chartData={chartData[index]}
             indicator={indicator}
+            multiIndicator={multiIndicator}
             chartNameField={chartNameField}
           />
         ))
