@@ -39,8 +39,8 @@ const IndicatorSelect = (props) => {
     }
   });
 
-  console.log(indicator);
-  console.log(multiIndicator);
+  console.log(`indicator - ${indicator}`);
+  console.log(`multiIndicator - ${multiIndicator}`);
 
   const handleTagCheck = (index, value) => {
     // console.log(tagCheck);
@@ -66,6 +66,10 @@ const IndicatorSelect = (props) => {
         });
         return checked;
       });
+    } else {
+      setMultiIndicator(null); // it sets to null but animation still same
+      setIndicator(null);
+      setChartNameField(null);
     }
   }, [tagCheck, chartType]);
 

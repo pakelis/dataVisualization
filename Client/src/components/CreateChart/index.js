@@ -32,6 +32,10 @@ const CreateChart = () => {
     setChartType(name);
   };
 
+  console.log(
+    `indicator - ${indicator} multiIndicator - ${multiIndicator} chartNameField - ${chartNameField}`
+  );
+
   return (
     <div className="section-wrapper">
       <section id="load-tables">
@@ -55,18 +59,17 @@ const CreateChart = () => {
         />
       </section>
       <section id="chart-customization">
-        {indicator ||
-          (multiIndicator && chartNameField && (
-            <div className="customization-container">
-              <ChartView
-                multiIndicator={multiIndicator}
-                indicator={indicator}
-                chartNameField={chartNameField}
-                chartType={chartType}
-                tableColumns={tableNames}
-              />
-            </div>
-          ))}
+        {indicator && chartNameField && (
+          <div className="customization-container">
+            <ChartView
+              multiIndicator={multiIndicator}
+              indicator={indicator}
+              chartNameField={chartNameField}
+              chartType={chartType}
+              tableColumns={tableNames}
+            />
+          </div>
+        )}
       </section>
     </div>
   );

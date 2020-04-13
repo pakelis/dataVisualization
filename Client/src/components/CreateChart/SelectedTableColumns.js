@@ -52,8 +52,7 @@ const SelectedTableColumns = ({
     if (selectedTable != null) {
       getTableColums();
     }
-    setChartNameField(null);
-  }, [selectedTable, chartType]);
+  }, [selectedTable]);
 
   return (
     <>

@@ -13,7 +13,10 @@ const ChartView = ({
   chartType,
   tableColumns,
 }) => {
-  console.log(indicator, multiIndicator);
+  console.log(`indicator - ${indicator}, chartNameField - ${chartNameField}`);
+  console.log(
+    `multiIndicator - ${multiIndicator}, chartNameField - ${chartNameField}`
+  );
 
   return (
     <>
