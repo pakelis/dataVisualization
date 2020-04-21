@@ -7,7 +7,7 @@ Still developing.... </br></br>
 Haven't deployed yet </br>
 
 Stack that im using:</br>
-ReactJS </br>
+ReactJS(hooks) </br>
 PostgreSQL </br>
 Ant-design </br>
 
