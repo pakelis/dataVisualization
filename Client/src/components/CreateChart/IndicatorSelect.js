@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 
 //ant d
-import { Select, Button, Radio, Typography, Tag } from "antd";
+import { Select, Radio, Typography, Tag, Form } from "antd";
 
 const { Option } = Select;
 const { Text } = Typography;
@@ -64,10 +64,6 @@ const IndicatorSelect = (props) => {
         });
         return checked;
       });
-    } else {
-      setMultiIndicator(null); // it sets to null but animation still same
-      setIndicator(null);
-      setChartNameField(null);
     }
   }, [tagCheck, chartType]);
 
@@ -87,6 +83,11 @@ const IndicatorSelect = (props) => {
     return whichSelect === 1
       ? placeholder.firstSelect
       : placeholder.secondSelect;
+  };
+
+  const clearSelected = () => {
+    setIndicator(undefined);
+    setChartNameField(undefined);
   };
 
   return (
