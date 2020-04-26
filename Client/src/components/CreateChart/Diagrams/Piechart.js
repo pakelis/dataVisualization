@@ -23,7 +23,7 @@ const Piechart = ({ multiIndicator, chartData, indicator, chartNameField }) => {
 
   return (
     <>
-      {multiIndicator.length != 0 ? (
+      {multiIndicator && multiIndicator.length != 0 ? (
         <div>
           <PieChart width={250} height={250}>
             <Pie

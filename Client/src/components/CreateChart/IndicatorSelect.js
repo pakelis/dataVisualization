@@ -6,9 +6,6 @@ import { Select, Button, Radio, Typography, Tag } from "antd";
 
 const { Option } = Select;
 const { Text } = Typography;
-const { CheckableTag } = Tag;
-
-//TODO make tag check seperate component
 
 const IndicatorSelect = (props) => {
   const {
@@ -24,8 +21,6 @@ const IndicatorSelect = (props) => {
     setMultiIndicator,
   } = props;
 
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
-  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
   const [tagCheck, setTagCheck] = useState(() => {
     let number = 0;
     if (columns != null) {
@@ -43,8 +38,11 @@ const IndicatorSelect = (props) => {
   console.log(`multiIndicator - ${multiIndicator}`);
 
   const handleTagCheck = (index, value) => {
-    // console.log(tagCheck);
     setTagCheck({ ...tagCheck, [index]: !tagCheck[index] });
+  };
+
+  const handleChange = (value) => {
+    setMultiIndicator(value);
   };
 
   useEffect(() => {
@@ -93,13 +91,28 @@ const IndicatorSelect = (props) => {
 
   return (
     <>
-      {/* for tablet or mobile we make basic select && for desktop we make radio button select */}
-      {isTabletOrMobile ? (
-        <div className="selectInput">
+      <div className="selectInput">
+        <Select
+          placeholder={placeholder(2)}
+          onChange={(value) => setChartNameField(value)}
+          style={{ width: 150 }}
+          value={chartNameField ? chartNameField : placeholder(2)}
+        >
+          {columns.map((row, i) =>
+            row.data_type === "character varying" ||
+            row.data_type === "date" ? (
+              <Option value={row.column_name} key={i}>
+                {row.column_name}
+              </Option>
+            ) : null
+          )}
+        </Select>
+        {chartType != "pieChart" ? (
           <Select
             placeholder={placeholder(1)}
             onChange={(value) => setIndicator(value)}
             style={{ width: 200 }}
+            value={indicator ? indicator : placeholder(1)}
           >
             {columns.map((row, i) =>
               // we check if our column data type is numeric or char
@@ -110,92 +123,23 @@ const IndicatorSelect = (props) => {
               ) : null
             )}
           </Select>
+        ) : (
           <Select
-            placeholder={placeholder(2)}
-            onChange={(value) => setChartNameField(value)}
-            style={{ width: 150 }}
+            mode="multiple"
+            style={{ width: 200 }}
+            placeholder="Please Select Arcs"
+            onChange={handleChange}
           >
             {columns.map((row, i) =>
-              row.data_type === "character varying" ||
-              row.data_type === "date" ? (
+              row.data_type != "character varying" ? (
                 <Option value={row.column_name} key={i}>
                   {row.column_name}
                 </Option>
               ) : null
             )}
           </Select>
-        </div>
-      ) : (
-        <div className="selectRadio-wrapper">
-          <div className="selectRadio-selectors">
-            {chartType === "pieChart" ? (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <Text type="secondary" style={{ padding: "10px" }}>
-                  Select {placeholder(1)} :
-                </Text>
-                <div>
-                  {columns.map((row, i) =>
-                    row.data_type != "character varying" ? (
-                      <CheckableTag
-                        checked={tagCheck[i]}
-                        onChange={() => handleTagCheck(i, row.column_name)}
-                        key={i}
-                        style={{ fontSize: "16px" }}
-                      >
-                        {row.column_name}
-                      </CheckableTag>
-                    ) : null
-                  )}
-                </div>
-              </div>
-            ) : (
-              <div>
-                <Text type="secondary" style={{ padding: "10px" }}>
-                  Select {placeholder(1)} :
-                </Text>
-                <Radio.Group buttonStyle="solid" className="selectRadio-group">
-                  {columns.map((row, i) =>
-                    row.data_type != "character varying" ? (
-                      <Radio.Button
-                        value={row.column_name}
-                        key={i}
-                        onChange={(e) => setIndicator(e.target.value)}
-                      >
-                        {row.column_name}
-                      </Radio.Button>
-                    ) : null
-                  )}
-                </Radio.Group>
-              </div>
-            )}
-          </div>
-          <div className="selectRadio-selectors">
-            <Text type="secondary" style={{ padding: "10px" }}>
-              Select {placeholder(2)} :
-            </Text>
-            <Radio.Group buttonStyle="solid" className="selectRadio-group">
-              {columns.map((row, i) =>
-                row.data_type === "character varying" ||
-                row.data_type === "date" ? (
-                  <Radio.Button
-                    value={row.column_name}
-                    key={i}
-                    onChange={(e) => setChartNameField(e.target.value)}
-                  >
-                    {row.column_name}
-                  </Radio.Button>
-                ) : null
-              )}
-            </Radio.Group>
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 };
