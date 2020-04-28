@@ -21,51 +21,18 @@ const IndicatorSelect = (props) => {
     setMultiIndicator,
   } = props;
 
-  const [tagCheck, setTagCheck] = useState(() => {
-    let number = 0;
-    if (columns != null) {
-      columns.map((row, i) => {
-        if (row.data_type != "character varying") {
-          number++;
-        }
-      });
-      let arr = Array(number).fill(false);
-      return { ...arr };
-    }
-  });
-
   console.log(`indicator - ${indicator}`);
   console.log(`multiIndicator - ${multiIndicator}`);
-
-  const handleTagCheck = (index, value) => {
-    setTagCheck({ ...tagCheck, [index]: !tagCheck[index] });
-  };
 
   const handleChange = (value) => {
     setMultiIndicator(value);
   };
 
   useEffect(() => {
-    if (chartType === "pieChart") {
-      setMultiIndicator(() => {
-        console.log(tagCheck);
-        let arr = [];
-        columns.map((row, i) => {
-          if (row.data_type != "character varying") {
-            arr.push(row.column_name);
-          }
-        });
-        let checked = [];
-        arr.map((val, index) => {
-          // console.log(tagCheck[index], val);
-          if (tagCheck[index] === true) {
-            checked.unshift(val);
-          }
-        });
-        return checked;
-      });
-    }
-  }, [tagCheck, chartType]);
+    setIndicator(null);
+    setMultiIndicator(null);
+    setChartNameField(null);
+  }, [chartType]);
 
   //what palceholder we should render on different chart types
   const placeholder = (whichSelect) => {
@@ -83,11 +50,6 @@ const IndicatorSelect = (props) => {
     return whichSelect === 1
       ? placeholder.firstSelect
       : placeholder.secondSelect;
-  };
-
-  const clearSelected = () => {
-    setIndicator(undefined);
-    setChartNameField(undefined);
   };
 
   return (

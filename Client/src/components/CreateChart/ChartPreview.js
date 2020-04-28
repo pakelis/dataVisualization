@@ -8,13 +8,15 @@ import Piechart from "./Diagrams/Piechart";
 import moment from "moment";
 
 //ant-d
-import { Col, Row } from "antd";
+import { Col, Row, Button } from "antd";
 
 //react-responsive
 import { useMediaQuery } from "react-responsive";
 
 //libs
 import axios from "axios";
+import domtoimage from "dom-to-image";
+import fileDownload from "js-file-download";
 
 //context
 import { useSelectedTableValue } from "../../context";
@@ -47,6 +49,14 @@ const ChartPreview = ({
   /* useEffect(() => {
     getData();
   }, [selectedTable, chartNameField, indicator, chartType]); */
+
+  const handleSaveClick = () => {
+    domtoimage
+      .toBlob(document.getElementById("node-to-convert"))
+      .then((blob) => {
+        fileDownload(blob, "dataVisualization.png");
+      });
+  };
 
   const getData = async () => {
     const token = await getTokenSilently();
@@ -122,36 +132,43 @@ const ChartPreview = ({
   };
 
   return (
-    <Col span={16} style={{ display: "flex", flexWrap: "wrap" }}>
-      {chartType === "barChart" ? (
-        <Barchart
-          dataMax={dataMax}
-          chartData={chartData}
-          indicator={indicator}
-          chartNameField={chartNameField}
-          customTooltipData={customTooltipData}
-        />
-      ) : chartType === "columnChart" ? (
-        <Columnchart
-          dataMax={dataMax}
-          chartData={chartData}
-          indicator={indicator}
-          chartNameField={chartNameField}
-          customTooltipData={customTooltipData}
-        />
-      ) : chartData != null && chartType === "pieChart" ? (
-        chartData.map((obj, index) => (
-          <Piechart
-            key={index}
-            //we pass only one object of array
-            chartData={chartData[index]}
+    <>
+      <Col
+        span={18}
+        style={{ display: "flex", flexWrap: "wrap" }}
+        id="node-to-convert"
+      >
+        {chartType === "barChart" ? (
+          <Barchart
+            dataMax={dataMax}
+            chartData={chartData}
             indicator={indicator}
-            multiIndicator={multiIndicator}
             chartNameField={chartNameField}
+            customTooltipData={customTooltipData}
           />
-        ))
-      ) : null}
-    </Col>
+        ) : chartType === "columnChart" ? (
+          <Columnchart
+            dataMax={dataMax}
+            chartData={chartData}
+            indicator={indicator}
+            chartNameField={chartNameField}
+            customTooltipData={customTooltipData}
+          />
+        ) : chartData != null && chartType === "pieChart" ? (
+          chartData.map((obj, index) => (
+            <Piechart
+              key={index}
+              //we pass only one object of array
+              chartData={chartData[index]}
+              indicator={indicator}
+              multiIndicator={multiIndicator}
+              chartNameField={chartNameField}
+            />
+          ))
+        ) : null}
+      </Col>
+      <Button onClick={handleSaveClick}>Save Chart</Button>
+    </>
   );
 };
 

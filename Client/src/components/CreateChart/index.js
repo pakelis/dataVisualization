@@ -59,7 +59,7 @@ const CreateChart = () => {
         />
       </section>
       <section id="chart-customization">
-        {indicator && chartNameField && (
+        {(indicator && chartNameField) || (chartNameField && multiIndicator) ? (
           <div className="customization-container">
             <ChartView
               multiIndicator={multiIndicator}
@@ -69,7 +69,7 @@ const CreateChart = () => {
               tableColumns={tableNames}
             />
           </div>
-        )}
+        ) : null}
       </section>
     </div>
   );
