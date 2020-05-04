@@ -1,14 +1,16 @@
 import {
   SelectedTableContext,
   SelectedTableProvider,
-  useSelectedTableValue
-} from "./selected-project-context";
+  useSelectedTableValue,
+} from './selected-project-context'
+
+import {DrawerContext, DrawerProvider, useDrawerValue} from './drawer-context'
 
 import {
-  DrawerContext,
-  DrawerProvider,
-  useDrawerValue
-} from "./drawer-context";
+  CustomizationContext,
+  CustomizationProvider,
+  useCustomizationValue,
+} from './chart-customization-context'
 
 export {
   SelectedTableContext,
@@ -16,5 +18,8 @@ export {
   useSelectedTableValue,
   DrawerContext,
   DrawerProvider,
-  useDrawerValue
-};
+  useDrawerValue,
+  CustomizationContext,
+  CustomizationProvider,
+  useCustomizationValue,
+}

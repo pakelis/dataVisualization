@@ -3,7 +3,6 @@ import {Router, Route, Switch} from 'react-router-dom'
 
 import PrivateRoute from './components/PrivateRoute'
 import Profile from './components/Profile'
-import {useAuth0} from './react-auth0-spa'
 
 //views
 import ExternalApi from './views/ExternalApi'
@@ -12,17 +11,14 @@ import CreateChartView from './views/CreateCart'
 
 //layout
 import NavBar from './components/Layout/NavBar'
-import SideMenu from './components/Layout/SideMenu'
 
 //extra libraries
 import history from './utils/history'
-import axios from 'axios'
 
 //context
-import {SelectedTableProvider} from './context'
+import {SelectedTableProvider, CustomizationProvider} from './context'
 
 //antd imports
-import {Button} from 'antd'
 import {Layout} from 'antd'
 
 //css
@@ -33,26 +29,28 @@ const {Content, Footer} = Layout
 function App() {
   return (
     <SelectedTableProvider>
-      <div className="App" style={{position: 'relative', minHeight: '100vh'}}>
-        <Router history={history}>
-          <Layout>
-            <NavBar />
-            <Content>
-              <Switch>
-                <Route path="/" exact />
-                <PrivateRoute path="/profile" component={Profile} />
-                <PrivateRoute path="/external-api" component={ExternalApi} />
-                <PrivateRoute path="/post-csv" component={PostCsv} />
-                <PrivateRoute
-                  path="/create-chart"
-                  component={CreateChartView}
-                />
-              </Switch>
-            </Content>
-          </Layout>
-          <Footer>Data Visualization ©2020 Created by Mantas</Footer>
-        </Router>
-      </div>
+      <CustomizationProvider>
+        <div className="App" style={{position: 'relative', minHeight: '100vh'}}>
+          <Router history={history}>
+            <Layout>
+              <NavBar />
+              <Content>
+                <Switch>
+                  <Route path="/" exact />
+                  <PrivateRoute path="/profile" component={Profile} />
+                  <PrivateRoute path="/external-api" component={ExternalApi} />
+                  <PrivateRoute path="/post-csv" component={PostCsv} />
+                  <PrivateRoute
+                    path="/create-chart"
+                    component={CreateChartView}
+                  />
+                </Switch>
+              </Content>
+            </Layout>
+            <Footer>Data Visualization ©2020 Created by Mantas</Footer>
+          </Router>
+        </div>
+      </CustomizationProvider>
     </SelectedTableProvider>
   )
 }

@@ -1,48 +1,57 @@
-import React, { useState } from "react";
+import React, {useState} from 'react'
 
 //ant-d
+import {Col, InputNumber, Form, Typography} from 'antd'
 
-import { Col, InputNumber, Form, Typography } from "antd";
+//context
+import {useCustomizationValue} from '../../context'
 
-const { Text } = Typography;
+const {Text} = Typography
 
 const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
+  labelCol: {span: 8},
+  wrapperCol: {span: 16},
+}
 
 const ChartCustomization = () => {
-  const [width, setWidth] = useState(600);
-  const [height, setHeight] = useState(600);
-  const [textSize, setTextSize] = useState(12);
-  const [leftMargin, setLeftMargin] = useState(40);
-  const [rightMargin, setRightMargin] = useState(40);
+  const {
+    width,
+    setWidth,
+    height,
+    setHeight,
+    textSize,
+    setTextSize,
+    leftMargin,
+    setLeftMargin,
+    rightMargin,
+    setRightMargin,
+  } = useCustomizationValue()
 
   const handleWidth = (value) => {
-    setWidth(value);
-  };
+    setWidth(value)
+  }
   const handleHeight = (value) => {
-    setHeight(value);
-  };
+    setHeight(value)
+  }
   const handleTextSize = (value) => {
-    setTextSize(value);
-  };
+    setTextSize(value)
+  }
   const handleRightMargin = (value) => {
-    setRightMargin(value);
-  };
+    setRightMargin(value)
+  }
   const handleLeftMargin = (value) => {
-    setLeftMargin(value);
-  };
+    setLeftMargin(value)
+  }
 
   return (
     <Col span={6}>
       <Form
         {...layout}
         name="customization"
-        initialValues={{ remember: true }}
+        initialValues={{remember: true}}
         style={{
-          display: "flex",
-          flexDirection: "column",
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
         <Text className="customization-text">Width</Text>
@@ -82,7 +91,7 @@ const ChartCustomization = () => {
         />
       </Form>
     </Col>
-  );
-};
+  )
+}
 
-export default ChartCustomization;
+export default ChartCustomization
