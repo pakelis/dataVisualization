@@ -1,8 +1,8 @@
-import React from "react";
-import CustomTooltip from "../CustomTooltip";
+import React, {useEffect} from 'react'
+import CustomTooltip from '../CustomTooltip'
 
 //react-responsive
-import { useMediaQuery } from "react-responsive";
+import {useMediaQuery} from 'react-responsive'
 
 //recharts
 import {
@@ -14,7 +14,10 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-} from "recharts";
+} from 'recharts'
+
+//context
+import {useCustomizationValue} from '../../../context'
 
 const Barchart = ({
   dataMax,
@@ -23,12 +26,31 @@ const Barchart = ({
   indicator,
   chartNameField,
 }) => {
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
-  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
+  const isTabletOrMobile = useMediaQuery({query: '(max-width: 1224px)'})
+  /*using context to get all the values we set in customization
+    , I think using context on values that changes alot is bad practice
+    , need to redo it later with redux */
+  const {
+    width,
+    height,
+    textSize,
+    leftMargin,
+    rightMargin,
+  } = useCustomizationValue()
+
+  console.log(`BarChart ${(width, height)}`)
 
   return (
-    <ResponsiveContainer width="95%" height={1800}>
-      <BarChart width={850} height={1800} data={chartData} layout="vertical">
+    <ResponsiveContainer
+      width={width ? width : 850}
+      height={height ? height : 1800}
+    >
+      <BarChart
+        // width={width ? width : 850}
+        // height={height ? height : 1800}
+        data={chartData}
+        layout="vertical"
+      >
         <CartesianGrid strokeDasharray="3 3" vertical={true} />
         <XAxis type="number" domain={[0, dataMax]} />
         <YAxis
@@ -45,7 +67,7 @@ const Barchart = ({
         <Bar dataKey={indicator} fill="#1DA57A" isAnimationActive={false} />
       </BarChart>
     </ResponsiveContainer>
-  );
-};
+  )
+}
 
-export default Barchart;
+export default Barchart

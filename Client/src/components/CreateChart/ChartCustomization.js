@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 
 //ant-d
 import {Col, InputNumber, Form, Typography} from 'antd'
@@ -56,17 +56,19 @@ const ChartCustomization = () => {
       >
         <Text className="customization-text">Width</Text>
         <InputNumber
-          min={1}
+          min={400}
           max={1800}
           defaultValue={600}
           onChange={handleWidth}
+          step={10}
         />
         <Text className="customization-text">Height</Text>
         <InputNumber
-          min={1}
+          min={400}
           max={1800}
-          defaultValue={600}
+          defaultValue={1200}
           onChange={handleHeight}
+          step={10}
         />
         <Text className="customization-text">Text Size</Text>
         <InputNumber
