@@ -6,6 +6,7 @@ import axios from "axios";
 import ChartPreview from "./ChartPreview";
 import ChartSelect from "./ChartSelect";
 import ChartCustomization from "./ChartCustomization";
+import ChartDownload from "./ChartDownload";
 
 //ant d
 import { Row } from "antd";
@@ -58,19 +59,26 @@ const CreateChart = () => {
           handleNames={handleNames}
         />
       </section>
-      <section id="chart-customization">
-        {(indicator && chartNameField) || (chartNameField && multiIndicator) ? (
-          <div className="customization-container">
-            <ChartView
-              multiIndicator={multiIndicator}
-              indicator={indicator}
-              chartNameField={chartNameField}
-              chartType={chartType}
-              tableColumns={tableNames}
-            />
-          </div>
-        ) : null}
-      </section>
+      {(indicator && chartNameField) || (chartNameField && multiIndicator) ? (
+        <>
+          <section id="chart-customization">
+            <div className="customization-container">
+              <ChartView
+                multiIndicator={multiIndicator}
+                indicator={indicator}
+                chartNameField={chartNameField}
+                chartType={chartType}
+                tableColumns={tableNames}
+              />
+            </div>
+          </section>
+          <section id="chart-download">
+            <div className="download-container">
+              <ChartDownload />
+            </div>
+          </section>
+        </>
+      ) : null}
     </div>
   );
 };

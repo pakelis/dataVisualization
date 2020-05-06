@@ -1,13 +1,14 @@
-import React, {useContext, createContext, useState} from 'react'
+import React, { useContext, createContext, useState } from "react";
 
-export const CustomizationContext = createContext()
+export const CustomizationContext = createContext();
 
-export const CustomizationProvider = ({children}) => {
-  const [width, setWidth] = useState(600)
-  const [height, setHeight] = useState(1200)
-  const [textSize, setTextSize] = useState(12)
-  const [leftMargin, setLeftMargin] = useState(40)
-  const [rightMargin, setRightMargin] = useState(40)
+export const CustomizationProvider = ({ children }) => {
+  const [width, setWidth] = useState(600);
+  const [height, setHeight] = useState(1200);
+  const [leftMargin, setLeftMargin] = useState(5);
+  const [rightMargin, setRightMargin] = useState(5);
+  const [bottomMargin, setBottomMargin] = useState(5);
+  const [topMargin, setTopMargin] = useState(5);
 
   return (
     <CustomizationContext.Provider
@@ -16,17 +17,19 @@ export const CustomizationProvider = ({children}) => {
         setWidth,
         height,
         setHeight,
-        textSize,
-        setTextSize,
         leftMargin,
         setLeftMargin,
         rightMargin,
         setRightMargin,
+        bottomMargin,
+        setBottomMargin,
+        topMargin,
+        setTopMargin,
       }}
     >
       {children}
     </CustomizationContext.Provider>
-  )
-}
+  );
+};
 
-export const useCustomizationValue = () => useContext(CustomizationContext)
+export const useCustomizationValue = () => useContext(CustomizationContext);

@@ -1,99 +1,106 @@
-import React from 'react'
+import React from "react";
+import CustomizationInput from "./CustomizationInput";
 
 //ant-d
-import {Col, InputNumber, Form, Typography} from 'antd'
+import { Col, InputNumber, Form, Typography } from "antd";
 
 //context
-import {useCustomizationValue} from '../../context'
+import { useCustomizationValue } from "../../context";
 
-const {Text} = Typography
+const { Text } = Typography;
 
 const layout = {
-  labelCol: {span: 8},
-  wrapperCol: {span: 16},
-}
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
+};
 
 const ChartCustomization = () => {
   const {
-    width,
     setWidth,
-    height,
     setHeight,
-    textSize,
-    setTextSize,
-    leftMargin,
     setLeftMargin,
-    rightMargin,
     setRightMargin,
-  } = useCustomizationValue()
+    setBottomMargin,
+    setTopMargin,
+  } = useCustomizationValue();
 
   const handleWidth = (value) => {
-    setWidth(value)
-  }
+    setWidth(value);
+  };
   const handleHeight = (value) => {
-    setHeight(value)
-  }
-  const handleTextSize = (value) => {
-    setTextSize(value)
-  }
+    setHeight(value);
+  };
   const handleRightMargin = (value) => {
-    setRightMargin(value)
-  }
+    setRightMargin(value);
+  };
   const handleLeftMargin = (value) => {
-    setLeftMargin(value)
-  }
+    setLeftMargin(value);
+  };
+  const handleBottomMargin = (value) => {
+    setBottomMargin(value);
+  };
+  const handleTopMargin = (value) => {
+    setTopMargin(value);
+  };
 
   return (
     <Col span={6}>
       <Form
         {...layout}
         name="customization"
-        initialValues={{remember: true}}
+        initialValues={{ remember: true }}
         style={{
-          display: 'flex',
-          flexDirection: 'column',
+          display: "flex",
+          flexDirection: "column",
         }}
       >
-        <Text className="customization-text">Width</Text>
-        <InputNumber
+        <CustomizationInput
+          text={"Width"}
           min={400}
           max={1800}
           defaultValue={600}
           onChange={handleWidth}
           step={10}
         />
-        <Text className="customization-text">Height</Text>
-        <InputNumber
+        <CustomizationInput
+          text={"Height"}
           min={400}
           max={1800}
           defaultValue={1200}
           onChange={handleHeight}
           step={10}
         />
-        <Text className="customization-text">Text Size</Text>
-        <InputNumber
-          min={1}
-          max={128}
-          defaultValue={12}
-          onChange={handleTextSize}
-        />
-        <Text className="customization-text">Left Margin</Text>
-        <InputNumber
-          min={1}
+        <CustomizationInput
+          text={"Left Margin"}
+          min={5}
           max={1000}
-          defaultValue={40}
+          defaultValue={5}
           onChange={handleLeftMargin}
         />
-        <Text className="customization-text">Right Margin</Text>
-        <InputNumber
-          min={1}
+        <CustomizationInput
+          text={"Right Margin"}
+          min={5}
           max={1000}
-          defaultValue={40}
+          defaultValue={5}
           onChange={handleRightMargin}
+        />
+        <CustomizationInput
+          text={"Bottom Margin"}
+          min={5}
+          max={1000}
+          defaultValue={5}
+          onChange={handleBottomMargin}
+        />
+        <CustomizationInput
+          text={"Top Margin"}
+          min={5}
+          max={1000}
+          defaultValue={5}
+          onChange={handleTopMargin}
         />
       </Form>
     </Col>
-  )
-}
+  );
+};
 
-export default ChartCustomization
+export default ChartCustomization;
