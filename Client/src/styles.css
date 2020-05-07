@@ -187,3 +187,42 @@ html {
 .customization-text {
   padding: 5px 0px;
 }
+
+/* Download Form */
+
+.download-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.download-form__input {
+  width: 240px;
+  margin-bottom: 10px;
+}
+
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* media */
+
+@media screen and (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
+}
+@media screen and (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+}
+@media screen and (min-width: 992px) {
+  .container {
+    width: 750px;
+  }
+}

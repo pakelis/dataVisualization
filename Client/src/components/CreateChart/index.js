@@ -40,29 +40,38 @@ const CreateChart = () => {
   return (
     <div className="section-wrapper">
       <section id="load-tables">
-        <SelectedTable />
+        <div className="container">
+          <SelectedTable />
+        </div>
       </section>
       <section id="chart-select">
-        <ChartSelect handleChartType={handleChartType} chartType={chartType} />
+        <div className="container">
+          <ChartSelect
+            handleChartType={handleChartType}
+            chartType={chartType}
+          />
+        </div>
       </section>
       <section id="dimension-select">
-        <SelectedTableColumns
-          multiIndicator={multiIndicator}
-          setMultiIndicator={setMultiIndicator}
-          setIndicator={setIndicator}
-          indicator={indicator}
-          chartNameField={chartNameField}
-          setChartNameField={setChartNameField}
-          setChartType={setChartType}
-          chartType={chartType}
-          handlePreview={handlePreview}
-          handleNames={handleNames}
-        />
+        <div className="container">
+          <SelectedTableColumns
+            multiIndicator={multiIndicator}
+            setMultiIndicator={setMultiIndicator}
+            setIndicator={setIndicator}
+            indicator={indicator}
+            chartNameField={chartNameField}
+            setChartNameField={setChartNameField}
+            setChartType={setChartType}
+            chartType={chartType}
+            handlePreview={handlePreview}
+            handleNames={handleNames}
+          />
+        </div>
       </section>
       {(indicator && chartNameField) || (chartNameField && multiIndicator) ? (
         <>
           <section id="chart-customization">
-            <div className="customization-container">
+            <div className="container">
               <ChartView
                 multiIndicator={multiIndicator}
                 indicator={indicator}
@@ -73,7 +82,7 @@ const CreateChart = () => {
             </div>
           </section>
           <section id="chart-download">
-            <div className="download-container">
+            <div className="container">
               <ChartDownload />
             </div>
           </section>
