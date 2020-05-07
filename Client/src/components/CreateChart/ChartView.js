@@ -4,7 +4,7 @@ import ChartPreview from "./ChartPreview";
 
 //ant-d
 import { Typography, Row } from "antd";
-const { Text } = Typography;
+const { Title } = Typography;
 
 const ChartView = ({
   multiIndicator,
@@ -26,7 +26,9 @@ const ChartView = ({
       ) ? (
         <>
           <div className="section__text">
-            <Text strong>Customize your Visualization</Text>
+            <Title level={4} strong>
+              Customize your Visualization
+            </Title>
           </div>
           <Row>
             <ChartCustomization />

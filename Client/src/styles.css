@@ -4,8 +4,6 @@ html {
 
 .ant-layout-content {
   padding-bottom: 2.5rem;
-  padding: 0 50px;
-  margin-top: 64px;
   position: relative;
   min-height: calc(100vh - 135px);
 }
@@ -105,9 +103,7 @@ html {
 /* Load table list */
 
 #load-tables {
-  display: flex;
-  justify-content: center;
-  padding-bottom: 40px;
+  padding: 40px 0px;
 }
 
 .list-wrapper {
@@ -157,6 +153,10 @@ html {
 }
 
 #chart-customization {
+  padding: 40px 0;
+}
+
+#chart-download {
   padding: 40px 0;
 }
 
@@ -211,18 +211,22 @@ html {
 
 /* media */
 
-@media screen and (min-width: 1200px) {
+@media (min-width: 768px) {
   .container {
-    width: 1170px;
+    width: 750px;
   }
 }
-@media screen and (min-width: 992px) {
+@media (min-width: 992px) {
   .container {
     width: 970px;
   }
 }
-@media screen and (min-width: 992px) {
+@media (min-width: 1200px) {
   .container {
-    width: 750px;
+    width: 1170px;
   }
+}
+
+section.dark {
+  background-color: #ececec;
 }

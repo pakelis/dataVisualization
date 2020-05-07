@@ -9,7 +9,7 @@ import axios from "axios";
 import { List, Typography } from "antd";
 import IndicatorSelect from "./IndicatorSelect";
 
-const { Text } = Typography;
+const { Title } = Typography;
 
 const SelectedTableColumns = ({
   setIndicator,
@@ -67,9 +67,9 @@ const SelectedTableColumns = ({
       {chartType && (
         <div className="select-wrapper">
           <div className="text-wrapper">
-            <Text strong className="section__text">
+            <Title level={4} strong className="section__text">
               Map your dimensions
-            </Text>
+            </Title>
           </div>
           <IndicatorSelect
             columns={data}

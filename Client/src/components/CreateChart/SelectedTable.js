@@ -12,12 +12,7 @@ import axios from "axios";
 import { DownOutlined, UserOutlined } from "@ant-design/icons";
 import { message, Typography, List, Radio } from "antd";
 
-const { Text } = Typography;
-
-function handleButtonClick(e) {
-  message.info("Click on left button.");
-  console.log("click left button", e);
-}
+const { Title } = Typography;
 
 const SelectedTable = () => {
   const [tableNames, setTableNames] = useState([]);
@@ -52,13 +47,16 @@ const SelectedTable = () => {
 
   return (
     <div className="list-wrapper">
-      <Text
-        strong
-        className="section__text"
-        style={{ alignSelf: "flex-start" }}
-      >
-        Select Table from the list
-      </Text>
+      <div className="text-wrapper">
+        <Title
+          level={4}
+          strong
+          className="section__text"
+          style={{ alignSelf: "flex-start" }}
+        >
+          Select Table from the list
+        </Title>
+      </div>
       <Radio.Group
         onChange={onChange}
         style={{ alignSelf: "center", maxWidth: "400px" }}

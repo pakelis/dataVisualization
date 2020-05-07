@@ -1,41 +1,45 @@
-import React, {useState, useEffect} from 'react'
-import SelectedTable from './SelectedTable'
-import SelectedTableColumns from './SelectedTableColumns'
-import {useAuth0} from '../../react-auth0-spa'
-import axios from 'axios'
-import ChartPreview from './ChartPreview'
-import ChartSelect from './ChartSelect'
-import ChartCustomization from './ChartCustomization'
-import ChartDownload from './ChartDownload'
+import React, { useState, useEffect } from "react";
+import SelectedTable from "./SelectedTable";
+import SelectedTableColumns from "./SelectedTableColumns";
+import { useAuth0 } from "../../react-auth0-spa";
+import axios from "axios";
+import ChartPreview from "./ChartPreview";
+import ChartSelect from "./ChartSelect";
+import ChartCustomization from "./ChartCustomization";
+import ChartDownload from "./ChartDownload";
 
 //ant d
-import {Row} from 'antd'
-import ChartView from './ChartView'
+import { Row } from "antd";
+import ChartView from "./ChartView";
+
+//context
+import { useSelectedTableValue } from "../../context";
 
 const CreateChart = () => {
-  const [indicator, setIndicator] = useState()
-  const [chartType, setChartType] = useState()
-  const [chartNameField, setChartNameField] = useState()
-  const [showChart, setShowChart] = useState(false)
-  const [tableNames, setTableNames] = useState()
-  const [selectedChart, setSelectedChart] = useState()
-  const [multiIndicator, setMultiIndicator] = useState()
+  const { selectedTable } = useSelectedTableValue();
+  const [indicator, setIndicator] = useState();
+  const [chartType, setChartType] = useState();
+  const [chartNameField, setChartNameField] = useState();
+  const [showChart, setShowChart] = useState(false);
+  const [tableNames, setTableNames] = useState();
+  const [selectedChart, setSelectedChart] = useState();
+  const [multiIndicator, setMultiIndicator] = useState();
 
   const handleNames = (names) => {
-    setTableNames(names)
-  }
+    setTableNames(names);
+  };
 
   const handlePreview = () => {
-    setShowChart(true)
-  }
+    setShowChart(true);
+  };
 
   const handleChartType = (name) => {
-    setChartType(name)
-  }
+    setChartType(name);
+  };
 
   console.log(
-    `indicator - ${indicator} multiIndicator - ${multiIndicator} chartNameField - ${chartNameField}`,
-  )
+    `indicator - ${indicator} multiIndicator - ${multiIndicator} chartNameField - ${chartNameField}`
+  );
 
   return (
     <div className="section-wrapper">
@@ -44,14 +48,16 @@ const CreateChart = () => {
           <SelectedTable />
         </div>
       </section>
-      <section id="chart-select">
-        <div className="container">
-          <ChartSelect
-            handleChartType={handleChartType}
-            chartType={chartType}
-          />
-        </div>
-      </section>
+      {selectedTable && (
+        <section id="chart-select" className="dark">
+          <div className="container">
+            <ChartSelect
+              handleChartType={handleChartType}
+              chartType={chartType}
+            />
+          </div>
+        </section>
+      )}
       <section id="dimension-select">
         <div className="container">
           <SelectedTableColumns
@@ -70,7 +76,7 @@ const CreateChart = () => {
       </section>
       {(indicator && chartNameField) || (chartNameField && multiIndicator) ? (
         <>
-          <section id="chart-customization">
+          <section id="chart-customization" className="dark">
             <div className="container">
               <ChartView
                 multiIndicator={multiIndicator}
@@ -89,7 +95,7 @@ const CreateChart = () => {
         </>
       ) : null}
     </div>
-  )
-}
+  );
+};
 
-export default CreateChart
+export default CreateChart;

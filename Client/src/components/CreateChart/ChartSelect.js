@@ -5,7 +5,7 @@ import { useSelectedTableValue } from "../../context";
 import { List, Card, Typography } from "antd";
 import { BarChartOutlined, PieChartOutlined } from "@ant-design/icons";
 
-const { Text } = Typography;
+const { Title } = Typography;
 
 const { Meta } = Card;
 
@@ -47,9 +47,9 @@ const ChartSelect = ({ handleChartType, chartType }) => {
       {selectedTable != null ? (
         <div className="chart-wrapper">
           <div className="text-wrapper">
-            <Text strong className="section__text">
+            <Title level={4} strong className="section__text">
               Select chart
-            </Text>
+            </Title>
           </div>
           <List
             grid={{
@@ -58,8 +58,8 @@ const ChartSelect = ({ handleChartType, chartType }) => {
               sm: 2,
               md: 4,
               lg: 4,
-              xl: 6,
-              xxl: 8,
+              xl: 4,
+              xxl: 4,
             }}
             dataSource={data}
             renderItem={(item, index) => (
