@@ -14,33 +14,45 @@ const ChartDownload = () => {
   const [selectValue, setSelectValue] = useState(null)
   const [fileName, setFileName] = useState(null)
   const handleSaveClick = () => {
-    if (fileName === 'png') {
-      domtoimage
-        .toBlob(document.getElementById('node-to-convert'))
-        .then((blob) => {
-          fileDownload(
-            blob,
-            fileName && fileName !== '' ? fileName : 'dataVisualization.png',
-          )
-        })
-    } else if (fileName === 'jpeg') {
-      domtoimage
-        .toJpeg(document.getElementById('node-to-convert'))
-        .then((blob) => {
-          fileDownload(
-            blob,
-            fileName && fileName !== '' ? fileName : 'dataVisualization.png',
-          )
-        })
-    } else {
-      domtoimage
-        .toSvg(document.getElementById('node-to-convert'))
-        .then((blob) => {
-          fileDownload(
-            blob,
-            fileName && fileName !== '' ? fileName : 'dataVisualization.png',
-          )
-        })
+    switch (selectValue) {
+      case 'png':
+        domtoimage
+          .toBlob(document.getElementById('node-to-convert'))
+          .then((blob) => {
+            fileDownload(
+              blob,
+              fileName && fileName !== ''
+                ? `${fileName}.png`
+                : 'dataVisualization.png',
+            )
+          })
+        break
+      case 'jpeg':
+        domtoimage
+          .toJpeg(document.getElementById('node-to-convert'))
+          .then((dataUrl) => {
+            fileDownload(
+              dataUrl,
+              fileName && fileName !== ''
+                ? `${fileName}.jpeg`
+                : 'dataVisualization.jpeg',
+            )
+          })
+        break
+      case 'svg':
+        domtoimage
+          .toSvg(document.getElementById('node-to-convert'))
+          .then((dataUrl) => {
+            fileDownload(
+              dataUrl,
+              fileName && fileName !== ''
+                ? `${fileName}.svg`
+                : 'dataVisualization.svg',
+            )
+          })
+        break
+      default:
+        console.log('file format like that doesnt exist')
     }
     setSelectValue(null)
     setFileName(null)
