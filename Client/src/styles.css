@@ -128,8 +128,8 @@ html {
 }
 
 .ant-row {
-  /* display: flex; */
-  /* justify-content: center; */
+  display: flex;
+  justify-content: center;
 }
 
 .chart-icon {
@@ -231,7 +231,7 @@ html {
   }
 }
 
-section.dark {
+.dark {
   background-color: #ececec;
 }
 

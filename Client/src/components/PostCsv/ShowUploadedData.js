@@ -1,19 +1,19 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from "react";
 
-import {Typography, Table, Button} from 'antd'
-import FormSubmit from './FormSubmit'
+import { Typography, Table, Button } from "antd";
+import FormSubmit from "./FormSubmit";
 
-const {Title} = Typography
+const { Title } = Typography;
 
 const ShowUploadedData = (parsedInfo) => {
-  const [rows, setRows] = useState(null)
-  const [fields, setFields] = useState(null)
-  const [showItems, setShowItems] = useState(10)
-  const [columns, setColumns] = useState(null)
+  const [rows, setRows] = useState(null);
+  const [fields, setFields] = useState(null);
+  const [showItems, setShowItems] = useState(10);
+  const [columns, setColumns] = useState(null);
   const [loading, setLoading] = useState({
     loading: false,
-  })
-  const [fileName, setFileName] = useState('')
+  });
+  const [fileName, setFileName] = useState("");
 
   useEffect(() => {
     if (
@@ -25,28 +25,28 @@ const ShowUploadedData = (parsedInfo) => {
       const {
         data: {
           data,
-          meta: {fields},
+          meta: { fields },
         },
         fileName,
-      } = parsedInfo
+      } = parsedInfo;
 
-      setFields(fields)
-      setFileName(fileName)
+      setFields(fields);
+      setFileName(fileName);
 
-      let addKey = data.map((row, index) => ({...row, key: index})) // We add key property to our data object for table
+      let addKey = data.map((row, index) => ({ ...row, key: index })); // We add key property to our data object for table
 
       //   setRows(addKey.slice(0, showItems)); // we slice our object to show only 10 first rows
-      setRows(addKey)
+      setRows(addKey);
 
       setColumns(
         fields.map((field, index) => ({
           title: field,
           dataIndex: field,
           key: field,
-        })),
-      )
+        }))
+      );
     }
-  }, [parsedInfo])
+  }, [parsedInfo]);
 
   return (
     <>
@@ -54,14 +54,14 @@ const ShowUploadedData = (parsedInfo) => {
         <>
           <div className="preview-wrapper">
             <div>
-              <Title level={4} style={{marginBottom: '20px'}}>
-                {fileName}
+              <Title level={4} style={{ marginBottom: "20px" }}>
+                Preview {fileName}
               </Title>
               <Table dataSource={rows} columns={columns} />
             </div>
           </div>
           <div className="form-wrapper">
-            <Title level={4} style={{marginBottom: '20px'}}>
+            <Title level={4} style={{ marginBottom: "20px" }}>
               Post data to DB
             </Title>
             <FormSubmit rows={rows} fields={fields} fileName={fileName} />
@@ -69,7 +69,7 @@ const ShowUploadedData = (parsedInfo) => {
         </>
       ) : null}
     </>
-  )
-}
+  );
+};
 
-export default ShowUploadedData
+export default ShowUploadedData;
