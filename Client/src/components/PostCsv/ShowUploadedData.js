@@ -5,7 +5,7 @@ import FormSubmit from './FormSubmit'
 
 const {Title} = Typography
 
-const ShowUploadedData = parsedInfo => {
+const ShowUploadedData = (parsedInfo) => {
   const [rows, setRows] = useState(null)
   const [fields, setFields] = useState(null)
   const [showItems, setShowItems] = useState(10)
@@ -49,15 +49,26 @@ const ShowUploadedData = parsedInfo => {
   }, [parsedInfo])
 
   return (
-    <div>
+    <>
       {rows != null ? (
-        <div>
-          <Title level={2}>CSV preview</Title>
-          <Table dataSource={rows} columns={columns} />
-          <FormSubmit rows={rows} fields={fields} fileName={fileName} />
-        </div>
+        <>
+          <div className="preview-wrapper">
+            <div>
+              <Title level={4} style={{marginBottom: '20px'}}>
+                {fileName}
+              </Title>
+              <Table dataSource={rows} columns={columns} />
+            </div>
+          </div>
+          <div className="form-wrapper">
+            <Title level={4} style={{marginBottom: '20px'}}>
+              Post data to DB
+            </Title>
+            <FormSubmit rows={rows} fields={fields} fileName={fileName} />
+          </div>
+        </>
       ) : null}
-    </div>
+    </>
   )
 }
 

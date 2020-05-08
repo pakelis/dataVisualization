@@ -75,9 +75,9 @@ const NavBar = () => {
                 <Menu.Item key="/profile">
                   <NavLink to="/profile">Profile</NavLink>
                 </Menu.Item>
-                <Menu.Item key="/external-api">
+                {/* <Menu.Item key="/external-api"> 
                   <NavLink to="/external-api">External API</NavLink>
-                </Menu.Item>
+                </Menu.Item> */}
                 <Menu.Item key="/post-csv">
                   <NavLink to="/post-csv">Post CVS</NavLink>
                 </Menu.Item>
