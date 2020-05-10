@@ -47,6 +47,8 @@ const FileUpload = () => {
       .replace(/[Į]/g, "I")
       .replace(/[ųū]/g, "u")
       .replace(/[ŲŪ]/g, "U")
+      .replace(/[ž]/g, "z")
+      .replace(/[Ž]/g, "Z")
       .replace(/[Š]/g, "S")
       .replace(/[š]/g, "s")
       .replace(/ /g, "_")
@@ -72,7 +74,8 @@ const FileUpload = () => {
       skipEmptyLines: true,
       dynamicTyping: true,
       transformHeader: (header) => {
-        return cleanUpSpecialChars(header);
+        let lowerCase = header.toLowerCase();
+        return cleanUpSpecialChars(lowerCase);
       },
       complete: (results) => {
         console.log(results);
