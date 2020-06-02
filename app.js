@@ -12,10 +12,21 @@ var indexRouter = require("./routes");
 var adminRouter = require("./admin_routes");
 var app = express();
 
+if (process.env.NODE_ENV === "production") {
+  // Exprees will serve up production assets
+  app.use(express.static("client/build"));
+
+  // Express serve up index.html file if it doesn't recognize route
+  const path = require("path");
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
+
 //Set up Auth0 configuration
 const authConfig = {
   domain: "dev-g2qmjdu7.eu.auth0.com",
-  audience: "http://localhost:3000"
+  audience: "http://localhost:3000",
 };
 
 //Define middleware that validates incoming bearer tokens
@@ -25,12 +36,12 @@ const checkJwt = jwt({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: `https://${authConfig.domain}/.well-known/jwks.json`
+    jwksUri: `https://${authConfig.domain}/.well-known/jwks.json`,
   }),
 
   audience: authConfig.audience,
   issuer: `https://${authConfig.domain}/`,
-  algorithm: ["RS256jk"]
+  algorithm: ["RS256jk"],
 });
 
 /* // Define an endpoint that must be called with an access token
