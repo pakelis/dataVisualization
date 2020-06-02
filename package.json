@@ -6,7 +6,8 @@
     "start": "node ./bin/www",
     "devstart": "nodemon ./bin/www",
     "dev": "npm run all --parallel start server",
-    "server": "node server.js"
+    "server": "node server.js",
+    "build": "cd Client/ && npm install && npm run build"
   },
   "dependencies": {
     "bluebird": "^3.7.2",
