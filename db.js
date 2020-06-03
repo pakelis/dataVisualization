@@ -1,5 +1,6 @@
 const promise = require("bluebird");
 const monitor = require("pg-monitor");
+require("dotenv").config();
 
 const initOptions = {
   promiseLib: promise,
@@ -12,11 +13,11 @@ const pgp = require("pg-promise")(initOptions, {
 monitor.attach(initOptions);
 
 const cn = {
-  user: "postgres",
-  host: "localhost",
-  database: "data_visualization",
-  password: "root",
-  port: "5432",
+  user: process.env.REACT_APP_DB_USER,
+  host: process.env.REACT_APP_DB_HOST,
+  database: process.env.REACT_APP_DB_DATABASE,
+  password: process.env.REACT_APP_DB_PASSWORD,
+  port: process.env.REACT_APP_DB_PORT,
 };
 
 const db = pgp(cn);

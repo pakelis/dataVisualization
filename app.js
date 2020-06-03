@@ -12,22 +12,19 @@ var indexRouter = require("./routes");
 var adminRouter = require("./admin_routes");
 var app = express();
 
-if (process.env.NODE_ENV === "production") {
-  // Exprees will serve up production assets
-  app.use(express.static("client/build"));
-
-  // Express serve up index.html file if it doesn't recognize route
-  const path = require("path");
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  });
-}
-
 //Set up Auth0 configuration
 const authConfig = {
   domain: "dev-g2qmjdu7.eu.auth0.com",
   audience: "http://localhost:3000",
 };
+
+/*
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+*/
 
 //Define middleware that validates incoming bearer tokens
 // using JWKS from YOUR_DOMAIN
